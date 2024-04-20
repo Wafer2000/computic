@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "977130354207",
+    "project_id": "computic-1fbfd",
+    "storage_bucket": "computic-1fbfd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977130354207:android:c906db98a36c910e8a872a",
+        "android_client_info": {
+          "package_name": "com.example.computic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0rMMKhw9npYxfskDHasOQnYXZXpJicDw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
