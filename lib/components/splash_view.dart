@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/views/home.dart';
 import 'package:computic/shared/prefe_users.dart';
-import 'package:computic/style/global_colors.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatefulWidget {
@@ -41,7 +40,7 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: WallpaperColor.white().color,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: const Center(
         child: SizedBox(
           width: 120,

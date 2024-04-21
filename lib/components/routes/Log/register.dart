@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/tools/helper_functions.dart';
+import 'package:computic/components/routes/tools/loading_indicator.dart';
 import 'package:computic/components/routes/tools/my_button.dart';
 import 'package:computic/components/routes/tools/my_textfield.dart';
 import 'package:computic/components/routes/views/guard/extra_data.dart';
@@ -26,15 +27,26 @@ class _RegisterState extends State<Register> {
 
   void Registro() async {
     var pref = PreferencesUserComputic();
-    showDialog(
-        context: context,
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ));
+    LoadingScreen().show(context);
 
     if (passwordController.text != confirmPassController.text) {
-      Navigator.pop(context);
+      LoadingScreen().hide();
       displayMessageToUser('Las contraseñas no son iguales', context);
+    } else if (passwordController.text.length < 8) {
+      LoadingScreen().hide();
+      displayMessageToUser('La contraseña debe tener al menos 8 caracteres', context);
+    } else if (!passwordController.text.contains(RegExp(r'[A-Z]'))) {
+      LoadingScreen().hide();
+      displayMessageToUser('La contraseña debe contener al menos una letra mayúscula', context);
+    } else if (!passwordController.text.contains(RegExp(r'[a-z]'))) {
+      LoadingScreen().hide();
+      displayMessageToUser('La contraseña debe contener al menos una letra minúscula', context);
+    } else if (!passwordController.text.contains(RegExp(r'[0-9]'))) {
+      LoadingScreen().hide();
+      displayMessageToUser('La contraseña debe contener al menos un dígito', context);
+    } else if (!passwordController.text.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      LoadingScreen().hide();
+      displayMessageToUser('La contraseña debe contener al menos un símbolo', context);
     } else {
       try {
         UserCredential? userCredential = await FirebaseAuth.instance
@@ -43,7 +55,7 @@ class _RegisterState extends State<Register> {
 
         var uid = userCredential.user?.uid;
         pref.ultimateUid = uid!;
-        FirebaseFirestore.instance.collection('Users').doc().set({
+        FirebaseFirestore.instance.collection('Users').doc(uid).set({
           'uid': uid,
           'nombres': firstnameController.text,
           'apellidos': lastnameController.text,
@@ -55,13 +67,20 @@ class _RegisterState extends State<Register> {
           'sexo': '',
           'direccion': '',
         });
+        LoadingScreen().hide();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const ExtraData()),
         );
       } on FirebaseAuthException catch (e) {
-        Navigator.pop(context);
-        displayMessageToUser(e.code, context);
+        LoadingScreen().hide();
+        if(e.code == 'invalid-email'){
+          displayMessageToUser('Email Invalido', context);
+        } else if(e.code == 'weak-password'){
+          displayMessageToUser('Contraseña Corta', context);
+        } else if(e.code == 'email-already-in-use'){
+          displayMessageToUser('Email en Uso', context);
+        }
       }
     }
   }
@@ -77,20 +96,17 @@ class _RegisterState extends State<Register> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.person,
-                  size: 80,
-                  color: Theme.of(context).colorScheme.inversePrimary,
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                const Text(
-                  'COMPUTIC',
-                  style: TextStyle(fontSize: 20),
-                ),
-                const SizedBox(
-                  height: 30,
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Image.asset(
+                      Theme.of(context).brightness == Brightness.light
+                          ? 'assets/14.png'
+                          : 'assets/13.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
                 MyTextField(
                     hintText: 'Nombres',
@@ -127,7 +143,7 @@ class _RegisterState extends State<Register> {
                 const SizedBox(
                   height: 10,
                 ),
-                MyButton(text: 'Registrar', onTap: Registro),
+                MyButton(text: 'Registrar', onTap: () => Registro()),
                 const SizedBox(
                   height: 25,
                 ),

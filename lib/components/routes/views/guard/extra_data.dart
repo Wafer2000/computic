@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:computic/components/routes/tools/helper_functions.dart';
+import 'package:computic/components/routes/tools/loading_indicator.dart';
 import 'package:computic/components/routes/tools/my_button.dart';
 import 'package:computic/components/routes/tools/my_textfield.dart';
 import 'package:computic/components/routes/views/home.dart';
@@ -25,25 +26,26 @@ class _ExtraDataState extends State<ExtraData> {
 
   void Guardar() async {
     var pref = PreferencesUserComputic();
-    showDialog(
-        context: context,
-        builder: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ));
+    LoadingScreen().show(context);
 
     if (fotoPerfilController.text == '') {
+      LoadingScreen().hide();
       displayMessageToUser('Debe colocar su foto de perfil', context);
     }
     if (addressController.text == '') {
+      LoadingScreen().hide();
       displayMessageToUser('Debe colocar su direccion', context);
     }
     if (sexController.text == '') {
+      LoadingScreen().hide();
       displayMessageToUser('Debe colocar su sexo', context);
     }
     if (phoneController.text == '') {
+      LoadingScreen().hide();
       displayMessageToUser('Debe colocar su numero celular', context);
     }
     if (agePassController.text == '') {
+      LoadingScreen().hide();
       displayMessageToUser('Debe colocar su fecha de nacimiento', context);
     } else {
       try {
@@ -57,13 +59,13 @@ class _ExtraDataState extends State<ExtraData> {
           'sexo': phoneController.text,
           'direccion': agePassController.text,
         });
-
+        LoadingScreen().hide();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const Home()),
         );
       } on FirebaseAuthException catch (e) {
-        Navigator.pop(context);
+        LoadingScreen().hide();
         displayMessageToUser(e.code, context);
       }
     }
@@ -130,7 +132,7 @@ class _ExtraDataState extends State<ExtraData> {
                 const SizedBox(
                   height: 10,
                 ),
-                MyButton(text: 'Guardar', onTap: Guardar),
+                MyButton(text: 'Guardar', onTap: () => Guardar()),
                 const SizedBox(
                   height: 25,
                 ),

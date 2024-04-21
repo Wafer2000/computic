@@ -21,12 +21,4 @@ class PreferencesUserComputic {
   set ultimateUid(String value) {
     _prefs.setString('ultimateUid', value);
   }
-
-  String get description {
-    return _prefs.getString('description') ?? '';
-  }
-
-  set description(String value) {
-    _prefs.setString('description', value);
-  }
 }

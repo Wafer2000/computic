@@ -4,6 +4,8 @@ import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/views/home.dart';
 import 'package:computic/components/splash_view.dart';
 import 'package:computic/shared/prefe_users.dart';
+import 'package:computic/style/theme/dark.dart';
+import 'package:computic/style/theme/light.dart';
 import 'package:flutter/material.dart';
 
 class Routes extends StatefulWidget {
@@ -25,6 +27,8 @@ class _RoutesState extends State<Routes> {
         Login.routname: (context) => const Login(),
         Home.routname: (context) => const Home(),
       },
+      theme: lightMode,
+      darkTheme: darkMode,
     );
   }
 }

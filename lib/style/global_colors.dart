@@ -1,5 +1,19 @@
 import 'package:flutter/material.dart';
 
+/*
+Black: White (0xFFFFFFFF)
+White: Black (0xFF000000)
+Venice Blue: Iceberg (0xFFE5F3F7)
+Iceberg: Venice Blue (0xFF07529B)
+Steel Blue: Kashmir Blue (0xFF4D7397)
+Viking: Blue Zodiac (0xFF123353)
+Kashmir Blue: Steel Blue (0xFF4E8EB9)
+Blue Zodiac: Viking (0xFF70B3DC)
+Danube: Bali Hai (0xFF8894B2)
+Catalina Blue: Danube (0xFF639DD6)
+Bali Hai: Catalina Blue (0xFF062A78)
+*/ 
+
 class WallpaperColor {
   final Color color;
 
