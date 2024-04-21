@@ -1,9 +1,9 @@
 import 'package:computic/components/routes.dart';
-import 'package:computic/components/routes/Log/login.dart';
-import 'package:computic/components/routes/views/home.dart';
+import 'package:computic/shared/prefe_users.dart';
 import 'package:computic/style/theme/dark.dart';
 import 'package:computic/style/theme/light.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'firebase/firebase_options.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,13 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const App());
+  await PreferencesUserComputic.init();
+
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) async {
+    
+  });
 }
 
 class App extends StatelessWidget {
@@ -22,9 +28,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      //home: Routes(),
-      home: const Login(),
-      //home: Home(),
+      home: const Routes(),
       theme: lightMode,
       darkTheme: darkMode,
     );

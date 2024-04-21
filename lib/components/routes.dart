@@ -14,7 +14,7 @@ class Routes extends StatefulWidget {
 }
 
 class _RoutesState extends State<Routes> {
-  final prefs = PreferencesUser();
+  final prefs = PreferencesUserComputic();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
