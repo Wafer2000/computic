@@ -7,7 +7,7 @@ import 'package:computic/shared/prefe_users.dart';
 import 'package:flutter/material.dart';
 
 class SplashView extends StatefulWidget {
-  static const String routname = 'SplashView';
+  static const String routname = 'splash_view';
   const SplashView({super.key});
 
   @override

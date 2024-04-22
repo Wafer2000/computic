@@ -11,7 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {
-  static const String routname = 'Login';
+  static const String routname = 'login';
   const Login({super.key});
 
   @override
@@ -72,14 +72,14 @@ class _LoginState extends State<Login> {
                   height: 30,
                 ),
                 MyTextField(
-                    hintText: 'Correo',
+                    labelText: 'Correo',
                     obscureText: false,
                     controller: emailController),
                 const SizedBox(
                   height: 10,
                 ),
                 MyTextField(
-                    hintText: 'Contraseña',
+                    labelText: 'Contraseña',
                     obscureText: true,
                     controller: passwordController),
                 const SizedBox(

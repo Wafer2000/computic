@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
+  static const String routname = '/register';
   const Register({super.key});
 
   @override
@@ -109,35 +110,35 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 MyTextField(
-                    hintText: 'Nombres',
+                    labelText: 'Nombres',
                     obscureText: false,
                     controller: firstnameController),
                 const SizedBox(
                   height: 10,
                 ),
                 MyTextField(
-                    hintText: 'Apellidos',
+                    labelText: 'Apellidos',
                     obscureText: false,
                     controller: lastnameController),
                 const SizedBox(
                   height: 10,
                 ),
                 MyTextField(
-                    hintText: 'Correo',
+                    labelText: 'Correo',
                     obscureText: false,
                     controller: emailController),
                 const SizedBox(
                   height: 10,
                 ),
                 MyTextField(
-                    hintText: 'Contraseña',
+                    labelText: 'Contraseña',
                     obscureText: true,
                     controller: passwordController),
                 const SizedBox(
                   height: 10,
                 ),
                 MyTextField(
-                    hintText: 'Confirmar Contraseña',
+                    labelText: 'Confirmar Contraseña',
                     obscureText: true,
                     controller: confirmPassController),
                 const SizedBox(
