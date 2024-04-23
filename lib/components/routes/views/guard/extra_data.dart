@@ -85,20 +85,16 @@ class _ExtraDataState extends State<ExtraData> {
             if (fotoPerfilController.text == '') {
               LoadingScreen().hide();
               displayMessageToUser('Debe colocar su foto de perfil', context);
-            }
-            if (addressController.text == '') {
+            } else if (addressController.text == '') {
               LoadingScreen().hide();
               displayMessageToUser('Debe colocar su direccion', context);
-            }
-            if (sexController.text == '') {
+            } else if (sexController.text == '') {
               LoadingScreen().hide();
               displayMessageToUser('Debe colocar su sexo', context);
-            }
-            if (phoneController.text == '') {
+            } else if (phoneController.text == '') {
               LoadingScreen().hide();
               displayMessageToUser('Debe colocar su numero celular', context);
-            }
-            if (ageController.text == '') {
+            } else if (ageController.text == '') {
               LoadingScreen().hide();
               displayMessageToUser(
                   'Debe colocar su fecha de nacimiento', context);
