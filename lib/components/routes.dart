@@ -3,7 +3,7 @@
 import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/Log/register.dart';
 import 'package:computic/components/routes/views/guard/extra_data.dart';
-import 'package:computic/components/routes/views/home.dart';
+import 'package:computic/components/routes/views/maintenance.dart';
 import 'package:computic/components/routes/views/profile.dart';
 import 'package:computic/components/splash_view.dart';
 import 'package:computic/shared/prefe_users.dart';
@@ -29,7 +29,7 @@ class _RoutesState extends State<Routes> {
         SplashView.routname: (context) => const SplashView(),
         Login.routname: (context) => const Login(),
         Register.routname: (context) => const Register(),
-        Home.routname: (context) => const Home(),
+        Maintenance.routname: (context) => const Maintenance(),
         Profile.routname: (context) => const Profile(),
         ExtraData.routname: (context) => const ExtraData(),
       },

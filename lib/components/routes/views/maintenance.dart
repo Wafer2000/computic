@@ -4,15 +4,15 @@ import 'package:computic/components/routes/tools/my_drawer.dart';
 import 'package:computic/style/global_colors.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  static const String routname = '/home';
-  const Home({super.key});
+class Maintenance extends StatefulWidget {
+  static const String routname = '/maintenance';
+  const Maintenance({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Maintenance> createState() => _MaintenanceState();
 }
 
-class _HomeState extends State<Home> {
+class _MaintenanceState extends State<Maintenance> {
   @override
   void dispose() {
     super.dispose();
@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Center(child: Text('Home')),
+        title: const Center(child: Text('Maintenance')),
         actions: const [
           SizedBox(
             width: 48,

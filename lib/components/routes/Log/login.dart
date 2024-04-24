@@ -5,7 +5,7 @@ import 'package:computic/components/routes/tools/helper_functions.dart';
 import 'package:computic/components/routes/tools/loading_indicator.dart';
 import 'package:computic/components/routes/tools/my_button.dart';
 import 'package:computic/components/routes/tools/my_textfield.dart';
-import 'package:computic/components/routes/views/home.dart';
+import 'package:computic/components/routes/views/maintenance.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,7 @@ class _LoginState extends State<Login> {
         LoadingScreen().hide();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const Home()),
+          MaterialPageRoute(builder: (context) => const Maintenance()),
         );
       }
     } on FirebaseAuthException catch (e) {

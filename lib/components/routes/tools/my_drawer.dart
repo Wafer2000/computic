@@ -2,7 +2,7 @@
 
 import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/tools/loading_indicator.dart';
-import 'package:computic/components/routes/views/home.dart';
+import 'package:computic/components/routes/views/maintenance.dart';
 import 'package:computic/components/routes/views/profile.dart';
 import 'package:computic/firebase/firestore.dart';
 import 'package:computic/shared/prefe_users.dart';
@@ -65,13 +65,13 @@ class _MyDrawerState extends State<MyDrawer> {
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
                   leading: Icon(
-                    Icons.home,
+                    Icons.build,
                     color: Theme.of(context).colorScheme.inversePrimary,
                   ),
-                  title: const Text('H O M E'),
+                  title: const Text('M A N T E N I M I E N T O'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, Home.routname);
+                    Navigator.pushNamed(context, Maintenance.routname);
                   },
                 ),
               ),
@@ -89,26 +89,13 @@ class _MyDrawerState extends State<MyDrawer> {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.group,
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                  ),
-                  title: const Text('U S E R S'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              )
             ],
           ),
           Padding(
             padding: const EdgeInsets.only(left: 25.0, bottom: 25),
             child: ListTile(
               leading: Icon(
-                Icons.group,
+                Icons.exit_to_app,
                 color: Theme.of(context).colorScheme.inversePrimary,
               ),
               title: const Text('C E R R A R  S E S I O N'),
