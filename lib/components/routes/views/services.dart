@@ -56,7 +56,7 @@ class _ServicesState extends State<Services> {
           'Debe colocar una descripcion referente a lo que desea', context);
     } else {
       FirebaseFirestore.instance
-          .collection('Maintences Creacion')
+          .collection('Creaciones')
           .doc(_pref.ultimateUid)
           .set({
         'cliente': _pref.ultimateUid,
@@ -85,7 +85,7 @@ class _ServicesState extends State<Services> {
           'Debe colocar una descripcion referente al daño de su PC', context);
     } else {
       FirebaseFirestore.instance
-          .collection('Maintences')
+          .collection('Alquileres')
           .doc(_pref.ultimateUid)
           .set({
         'cliente': _pref.ultimateUid,
@@ -108,7 +108,7 @@ class _ServicesState extends State<Services> {
           context);
     } else {
       FirebaseFirestore.instance
-          .collection('Maintences')
+          .collection('Instalaciones')
           .doc(_pref.ultimateUid)
           .set({
         'cliente': _pref.ultimateUid,
@@ -134,7 +134,7 @@ class _ServicesState extends State<Services> {
           context);
     } else {
       FirebaseFirestore.instance
-          .collection('Maintences')
+          .collection('Capacitaciones')
           .doc(_pref.ultimateUid)
           .set({
         'cliente': _pref.ultimateUid,
@@ -162,7 +162,7 @@ class _ServicesState extends State<Services> {
           'Debe colocar una descripcion referente al daño de su PC', context);
     } else {
       FirebaseFirestore.instance
-          .collection('Maintences')
+          .collection('Mantenimientos')
           .doc(_pref.ultimateUid)
           .set({
         'cliente': _pref.ultimateUid,
