@@ -2,7 +2,7 @@
 
 import 'dart:async';
 import 'package:computic/components/routes/Log/login.dart';
-import 'package:computic/components/routes/views/maintenance.dart';
+import 'package:computic/components/routes/views/services.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:flutter/material.dart';
 
@@ -18,13 +18,13 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    PreferencesUserComputic prefs = PreferencesUserComputic();
+    PreferencesUser prefs = PreferencesUser();
     Future.delayed(Duration(milliseconds: (6720).round()), () async {
       final uid = await prefs.ultimateUid;
       if (uid != null && uid != '') {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) {
-            return const Maintenance();
+            return const Services();
           }),
         );
       } else {

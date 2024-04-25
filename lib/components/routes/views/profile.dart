@@ -17,7 +17,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  final _pref = PreferencesUserComputic();
+  final _pref = PreferencesUser();
 
   @override
   void initState() {

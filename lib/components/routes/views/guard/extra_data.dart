@@ -6,7 +6,7 @@ import 'package:computic/components/routes/tools/input_photo.dart';
 import 'package:computic/components/routes/tools/loading_indicator.dart';
 import 'package:computic/components/routes/tools/my_button.dart';
 import 'package:computic/components/routes/tools/my_textfield.dart';
-import 'package:computic/components/routes/views/maintenance.dart';
+import 'package:computic/components/routes/views/services.dart';
 import 'package:computic/style/global_colors.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +24,7 @@ class ExtraData extends StatefulWidget {
 }
 
 class _ExtraDataState extends State<ExtraData> {
-  final _pref = PreferencesUserComputic();
+  final _pref = PreferencesUser();
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +113,7 @@ class _ExtraDataState extends State<ExtraData> {
                 LoadingScreen().hide();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const Maintenance()),
+                  MaterialPageRoute(builder: (context) => const Services()),
                 );
               } on FirebaseAuthException catch (e) {
                 LoadingScreen().hide();

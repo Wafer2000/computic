@@ -3,7 +3,7 @@
 import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/Log/register.dart';
 import 'package:computic/components/routes/views/guard/extra_data.dart';
-import 'package:computic/components/routes/views/maintenance.dart';
+import 'package:computic/components/routes/views/services.dart';
 import 'package:computic/components/routes/views/profile.dart';
 import 'package:computic/components/splash_view.dart';
 import 'package:computic/shared/prefe_users.dart';
@@ -19,7 +19,7 @@ class Routes extends StatefulWidget {
 }
 
 class _RoutesState extends State<Routes> {
-  final prefs = PreferencesUserComputic();
+  final prefs = PreferencesUser();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -29,7 +29,7 @@ class _RoutesState extends State<Routes> {
         SplashView.routname: (context) => const SplashView(),
         Login.routname: (context) => const Login(),
         Register.routname: (context) => const Register(),
-        Maintenance.routname: (context) => const Maintenance(),
+        Services.routname: (context) => const Services(),
         Profile.routname: (context) => const Profile(),
         ExtraData.routname: (context) => const ExtraData(),
       },

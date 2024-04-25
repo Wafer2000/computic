@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PreferencesUserComputic {
+class PreferencesUser {
   static late SharedPreferences _prefs;
 
   static Future init() async {

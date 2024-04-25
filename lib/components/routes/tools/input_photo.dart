@@ -21,7 +21,7 @@ class _InputFotoPerfilState extends State<InputFotoPerfil> {
   String _imageUrl = '';
   PlatformFile? _pickedFile;
   UploadTask? _uploadTask;
-  final _pref = PreferencesUserComputic();
+  final _pref = PreferencesUser();
 
   @override
   void initState() {
@@ -143,7 +143,7 @@ class _InputFotoPerfilState extends State<InputFotoPerfil> {
 
   @override
   Widget build(BuildContext context) {
-    var prefs = PreferencesUserComputic();
+    var prefs = PreferencesUser();
 
     return Column(
             children: [

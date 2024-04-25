@@ -2,7 +2,7 @@
 
 import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/tools/loading_indicator.dart';
-import 'package:computic/components/routes/views/maintenance.dart';
+import 'package:computic/components/routes/views/services.dart';
 import 'package:computic/components/routes/views/profile.dart';
 import 'package:computic/firebase/firestore.dart';
 import 'package:computic/shared/prefe_users.dart';
@@ -22,7 +22,7 @@ class _MyDrawerState extends State<MyDrawer> {
   final TextEditingController _textController = TextEditingController();
 
   Future<void> _signOut() async {
-    var pref = PreferencesUserComputic();
+    var pref = PreferencesUser();
     LoadingScreen().show(context);
 
     try {
@@ -71,7 +71,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   title: const Text('M A N T E N I M I E N T O'),
                   onTap: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, Maintenance.routname);
+                    Navigator.pushNamed(context, Services.routname);
                   },
                 ),
               ),

@@ -27,7 +27,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController confirmPassController = TextEditingController();
 
   void Registro() async {
-    var pref = PreferencesUserComputic();
+    var pref = PreferencesUser();
     LoadingScreen().show(context);
 
     if (passwordController.text != confirmPassController.text) {
