@@ -29,7 +29,7 @@ class _ProfileState extends State<Profile> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          title: const Center(child: Text('Profile')),
+          title: const Center(child: Text('Perfil')),
           actions: [
             IconButton(
                 onPressed: () {

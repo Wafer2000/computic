@@ -633,7 +633,7 @@ class _ServicesState extends State<Services> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Center(child: Text('Mantenimiento')),
+        title: const Center(child: Text('Servicios')),
         actions: const [
           SizedBox(
             width: 48,

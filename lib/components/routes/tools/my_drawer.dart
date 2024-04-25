@@ -68,7 +68,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     Icons.build,
                     color: Theme.of(context).colorScheme.inversePrimary,
                   ),
-                  title: const Text('M A N T E N I M I E N T O'),
+                  title: const Text('S E R V I C I O S'),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, Services.routname);
@@ -82,7 +82,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     Icons.person,
                     color: Theme.of(context).colorScheme.inversePrimary,
                   ),
-                  title: const Text('P R O F I L E'),
+                  title: const Text('P E R F I L E'),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, Profile.routname);
