@@ -3,8 +3,14 @@
 import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/Log/register.dart';
 import 'package:computic/components/routes/views/guard/extra_data.dart';
-import 'package:computic/components/routes/views/services.dart';
+import 'package:computic/components/routes/views/home.dart';
 import 'package:computic/components/routes/views/profile.dart';
+import 'package:computic/components/routes/views/services/creation.dart';
+import 'package:computic/components/routes/views/services/facility.dart';
+import 'package:computic/components/routes/views/services/maintenance.dart';
+import 'package:computic/components/routes/views/services/rent.dart';
+import 'package:computic/components/routes/views/services/shope.dart';
+import 'package:computic/components/routes/views/services/training.dart';
 import 'package:computic/components/splash_view.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:computic/style/theme/dark.dart';
@@ -26,12 +32,18 @@ class _RoutesState extends State<Routes> {
       debugShowCheckedModeBanner: false,
       initialRoute: SplashView.routname,
       routes: {
-        SplashView.routname: (context) => const SplashView(),
+        Home.routname: (context) => const Home(),
         Login.routname: (context) => const Login(),
-        Register.routname: (context) => const Register(),
-        Services.routname: (context) => const Services(),
         Profile.routname: (context) => const Profile(),
+        Register.routname: (context) => const Register(),
         ExtraData.routname: (context) => const ExtraData(),
+        SplashView.routname: (context) => const SplashView(),
+        RentService.routname: (context) => const RentService(),
+        ShopeService.routname: (context) => const ShopeService(),
+        CreationService.routname: (context) => const CreationService(),
+        FacilityService.routname: (context) => const FacilityService(),
+        TrainingService.routname: (context) => const TrainingService(),
+        MaintenanceService.routname: (context) => const MaintenanceService(),
       },
       theme: lightMode,
       darkTheme: darkMode,

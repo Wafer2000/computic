@@ -2,8 +2,12 @@
 
 import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/tools/loading_indicator.dart';
-import 'package:computic/components/routes/views/services.dart';
 import 'package:computic/components/routes/views/profile.dart';
+import 'package:computic/components/routes/views/services/creation.dart';
+import 'package:computic/components/routes/views/services/facility.dart';
+import 'package:computic/components/routes/views/services/maintenance.dart';
+import 'package:computic/components/routes/views/services/rent.dart';
+import 'package:computic/components/routes/views/services/training.dart';
 import 'package:computic/firebase/firestore.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -62,19 +66,111 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.build,
-                    color: Theme.of(context).colorScheme.inversePrimary,
-                  ),
-                  title: const Text('S E R V I C I O S'),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, Services.routname);
-                  },
-                ),
-              ),
+                  padding: const EdgeInsets.only(left: 25.0),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        leading: Icon(
+                          Icons.cloud,
+                          color: Theme.of(context).colorScheme.inversePrimary,
+                        ),
+                        title: const Text('S E R V I C I O S'),
+                      ),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: ListTile(
+                              leading: Icon(
+                                Icons
+                                    .build, // MANTENIMIENTO (icono de herramienta)
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                              ),
+                              title: const Text('M A N T E N I M I E N T O'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.pushNamed(
+                                    context, MaintenanceService.routname);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: ListTile(
+                              leading: Icon(
+                                Icons.school, // CAPACITACIÓN (icono de escuela)
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                              ),
+                              title: const Text('C A P A C I T A C I O N'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.pushNamed(
+                                    context, TrainingService.routname);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: ListTile(
+                              leading: Icon(
+                                Icons
+                                    .home_repair_service, // INSTALACIÓN (icono de reparación en casa)
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                              ),
+                              title: const Text('I N S T A L A C I O N'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.pushNamed(
+                                    context, FacilityService.routname);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: ListTile(
+                              leading: Icon(
+                                Icons
+                                    .add_circle_outline, // INSTALACIÓN (icono de reparación en casa)
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                              ),
+                              title: const Text('C R E A C I O N'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.pushNamed(
+                                    context, CreationService.routname);
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 25.0),
+                            child: ListTile(
+                              leading: Icon(
+                                Icons
+                                    .device_hub, // ALQUILER (icono de apartamento)
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .inversePrimary,
+                              ),
+                              title: const Text('A L Q U I L A R'),
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.pushNamed(
+                                    context, RentService.routname);
+                              },
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )),
               Padding(
                 padding: const EdgeInsets.only(left: 25.0),
                 child: ListTile(
