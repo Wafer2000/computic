@@ -49,7 +49,6 @@ class _ProfileState extends State<Profile> {
               .doc(_pref.ultimateUid)
               .snapshots(),
           builder: (context, snapshot) {
-            String imageUrl = '';
             if (snapshot.hasError) {
               return const AlertDialog(
                 title: Text('Algo salio mal'),
@@ -98,7 +97,7 @@ class _ProfileState extends State<Profile> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(200),
                         child: Image.network(
-                          user['fperfil'] == '' ? imageUrl : user['fperfil'],
+                          user['fperfil'],
                           width: 250,
                           height: 250,
                           errorBuilder: (context, error, stackTrace) {

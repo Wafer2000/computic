@@ -39,7 +39,7 @@ class _TrainingServiceState extends State<TrainingService> {
     } else {
       FirebaseFirestore.instance
           .collection('Capacitaciones')
-          .doc(_pref.ultimateUid)
+          .doc()
           .set({
         'cliente': _pref.ultimateUid,
         'descripcion': descaController.text,
@@ -102,6 +102,22 @@ class _TrainingServiceState extends State<TrainingService> {
                   width: MediaQuery.of(context).size.width * 0.3,
                   height: 50,
                   decoration: BoxDecoration(
+                    color: const Color(0xFF8894B2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      descaController.clear();
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancelar',
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: 50,
+                  decoration: BoxDecoration(
                     color: const Color(0xFF07529B),
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -112,22 +128,6 @@ class _TrainingServiceState extends State<TrainingService> {
                       Navigator.pop(context);
                     },
                     child: const Text('Solicitar',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF8894B2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      descaController.clear();
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancelar',
                         style: TextStyle(color: Colors.white)),
                   ),
                 ),

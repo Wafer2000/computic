@@ -17,7 +17,6 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
-  final FirestoreService firestoreService = FirestoreService();
 
   final TextEditingController _textController = TextEditingController();
 

@@ -39,7 +39,7 @@ class _FacilityServiceState extends State<FacilityService> {
     } else {
       FirebaseFirestore.instance
           .collection('Instalaciones')
-          .doc(_pref.ultimateUid)
+          .doc()
           .set({
         'cliente': _pref.ultimateUid,
         'descripcion': desseController.text,
@@ -106,6 +106,21 @@ class _FacilityServiceState extends State<FacilityService> {
                   width: MediaQuery.of(context).size.width * 0.3,
                   height: 50,
                   decoration: BoxDecoration(
+                    color: const Color(0xFF8894B2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancelar',
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: 50,
+                  decoration: BoxDecoration(
                     color: const Color(0xFF07529B),
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -116,21 +131,6 @@ class _FacilityServiceState extends State<FacilityService> {
                       Navigator.pop(context);
                     },
                     child: const Text('Solicitar',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF8894B2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancelar',
                         style: TextStyle(color: Colors.white)),
                   ),
                 ),

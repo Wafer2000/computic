@@ -43,7 +43,7 @@ class _CreationServiceState extends State<CreationService> {
     } else {
       FirebaseFirestore.instance
           .collection('Creaciones')
-          .doc(_pref.ultimateUid)
+          .doc()
           .set({
         'cliente': _pref.ultimateUid,
         'nombre': nameController.text,
@@ -115,6 +115,23 @@ class _CreationServiceState extends State<CreationService> {
                   width: MediaQuery.of(context).size.width * 0.3,
                   height: 50,
                   decoration: BoxDecoration(
+                    color: const Color(0xFF8894B2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      nameController.clear();
+                      descreaController.clear();
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancelar',
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: 50,
+                  decoration: BoxDecoration(
                     color: const Color(0xFF07529B),
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -126,23 +143,6 @@ class _CreationServiceState extends State<CreationService> {
                       Navigator.pop(context);
                     },
                     child: const Text('Solicitar',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF8894B2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      nameController.clear();
-                      descreaController.clear();
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancelar',
                         style: TextStyle(color: Colors.white)),
                   ),
                 ),

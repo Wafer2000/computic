@@ -42,7 +42,7 @@ class _RentServiceState extends State<RentService> {
     } else {
       FirebaseFirestore.instance
           .collection('Alquileres')
-          .doc(_pref.ultimateUid)
+          .doc()
           .set({
         'cliente': _pref.ultimateUid,
         'tipo': timeController.text,
