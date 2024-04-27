@@ -57,7 +57,8 @@ class _ShopeServiceState extends State<ShopeService> {
               child: Container(
                 decoration: const BoxDecoration(color: Colors.blue),
                 child: const Column(
-                  children: [],
+                  children: [
+                  ],
                 ),
               ),
             ),

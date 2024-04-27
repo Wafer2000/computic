@@ -17,7 +17,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   @override
   void dispose() {
     super.dispose();
@@ -28,6 +27,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
+          title: const Center(child: Text('I n i c i o')),
           actions: const [
             SizedBox(
               width: 48,
@@ -50,8 +50,8 @@ class _HomeState extends State<Home> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        width: 170,
-                        height: 170,
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        height: MediaQuery.sizeOf(context).width * 0.45,
                         child: FloatingActionButton.extended(
                           heroTag: 'mantenimientoTag',
                           onPressed: () {
@@ -62,14 +62,18 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.school,
+                                Icons.laptop,
                                 color: Theme.of(context).colorScheme.primary,
                                 size: 35,
                               ),
                               const SizedBox(height: 10),
                               const Text(
-                                'Mantenimiento',
-                                style: TextStyle(fontSize: 20),
+                                'Mantenimiento de',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Text(
+                                'Computadores',
+                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
@@ -83,8 +87,8 @@ class _HomeState extends State<Home> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        width: 170,
-                        height: 170,
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        height: MediaQuery.sizeOf(context).width * 0.45,
                         child: FloatingActionButton.extended(
                           heroTag: 'capacitacionTag',
                           onPressed: () {
@@ -101,8 +105,12 @@ class _HomeState extends State<Home> {
                               ),
                               const SizedBox(height: 10),
                               const Text(
-                                'Capacitacion',
-                                style: TextStyle(fontSize: 20),
+                                'Capacitacion de',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Text(
+                                'Soluciones Tecnológicas',
+                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
@@ -121,43 +129,10 @@ class _HomeState extends State<Home> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        width: 170,
-                        height: 170,
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        height: MediaQuery.sizeOf(context).width * 0.45,
                         child: FloatingActionButton.extended(
-                          heroTag: 'instalacionTag',
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, FacilityService.routname);
-                          },
-                          label: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.home_repair_service,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 35,
-                              ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                'Instalacion',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ],
-                          ),
-                          backgroundColor:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
-                                  : WallpaperColor.baliHai().color,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: 170,
-                        height: 170,
-                        child: FloatingActionButton.extended(
-                          heroTag: 'creacionTag',
+                          heroTag: 'creacionappTag',
                           onPressed: () {
                             Navigator.pushNamed(
                                 context, CreationService.routname);
@@ -166,14 +141,55 @@ class _HomeState extends State<Home> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.add_circle_outline,
+                                Icons.code,
                                 color: Theme.of(context).colorScheme.primary,
                                 size: 35,
                               ),
                               const SizedBox(height: 10),
                               const Text(
-                                'Creacion',
-                                style: TextStyle(fontSize: 20),
+                                'Creacion de',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Text(
+                                'Aplicaciones',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? WallpaperColor.danube().color
+                                  : WallpaperColor.baliHai().color,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        height: MediaQuery.sizeOf(context).width * 0.45,
+                        child: FloatingActionButton.extended(
+                          heroTag: 'creacionwebTag',
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, CreationService.routname);
+                          },
+                          label: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.web,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 35,
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                'Creacion de',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Text(
+                                'Paginas Web',
+                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
@@ -192,8 +208,87 @@ class _HomeState extends State<Home> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        width: 170,
-                        height: 170,
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        height: MediaQuery.sizeOf(context).width * 0.45,
+                        child: FloatingActionButton.extended(
+                          heroTag: 'instalacioncamarasTag',
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, FacilityService.routname);
+                          },
+                          label: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.videocam,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 35,
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                'Instalacion de',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Text(
+                                'Camaras',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? WallpaperColor.danube().color
+                                  : WallpaperColor.baliHai().color,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        height: MediaQuery.sizeOf(context).width * 0.45,
+                        child: FloatingActionButton.extended(
+                          heroTag: 'instalacioncercadoTag',
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, FacilityService.routname);
+                          },
+                          label: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.fence,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 35,
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                'Instalacion de',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Text(
+                                'Cercado Electrico',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
+                          ),
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? WallpaperColor.danube().color
+                                  : WallpaperColor.baliHai().color,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        height: MediaQuery.sizeOf(context).width * 0.45,
                         child: FloatingActionButton.extended(
                           heroTag: 'alquilerTag',
                           onPressed: () {
@@ -209,8 +304,12 @@ class _HomeState extends State<Home> {
                               ),
                               const SizedBox(height: 10),
                               const Text(
-                                'Alquiler',
-                                style: TextStyle(fontSize: 20),
+                                'Alquiler de',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Text(
+                                'Equipos Tecnológicos',
+                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
@@ -224,8 +323,8 @@ class _HomeState extends State<Home> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        width: 170,
-                        height: 170,
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        height: MediaQuery.sizeOf(context).width * 0.45,
                         child: FloatingActionButton.extended(
                           heroTag: 'tiendaTag',
                           onPressed: () {
@@ -242,7 +341,11 @@ class _HomeState extends State<Home> {
                               const SizedBox(height: 10),
                               const Text(
                                 'Tienda',
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Text(
+                                'Virtual',
+                                style: TextStyle(fontSize: 18),
                               ),
                             ],
                           ),
@@ -261,179 +364,3 @@ class _HomeState extends State<Home> {
         ));
   }
 }
-
-/*
-Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 120,
-                        height: 120,
-                        child: FloatingActionButton.extended(
-                          heroTag: mantenimientoTag,
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, MaintenanceService.routname);
-                          },
-                          label: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.build,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 24,
-                              ),
-                              const SizedBox(height: 8),
-                              const Text('Mantenimiento'),
-                            ],
-                          ),
-                          backgroundColor:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
-                                  : WallpaperColor.baliHai().color,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 120,
-                        height: 120,
-                        child: FloatingActionButton.extended(
-                          heroTag: capacitacionTag,
-                          onPressed: () {
-                            Navigator.pushNamed(context, TrainingService.routname);
-                          },
-                          label: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.school,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 24,
-                              ),
-                              const SizedBox(height: 8),
-                              const Text('Capacitacion'),
-                            ],
-                          ),
-                          backgroundColor:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
-                                  : WallpaperColor.baliHai().color,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 120,
-                        height: 120,
-                        child: FloatingActionButton.extended(
-                          heroTag: instalacionTag,
-                          onPressed: () {
-                            Navigator.pushNamed(context, FacilityService.routname);
-                          },
-                          label: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.home_repair_service,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 24,
-                              ),
-                              const SizedBox(height: 8),
-                              const Text('Instalacion'),
-                            ],
-                          ),
-                          backgroundColor:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
-                                  : WallpaperColor.baliHai().color,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 8, 10, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: 120,
-                        height: 120,
-                        child: FloatingActionButton.extended(
-                          heroTag: creacionTag,
-                          onPressed: () {
-                            Navigator.pushNamed(context, CreationService.routname);
-                          },
-                          label: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add_circle_outline,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 24,
-                              ),
-                              const SizedBox(height: 8),
-                              const Text('Instalacion'),
-                            ],
-                          ),
-                          backgroundColor:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
-                                  : WallpaperColor.baliHai().color,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 120,
-                        height: 120,
-                        child: FloatingActionButton.extended(
-                          heroTag: alquilerTag,
-                          onPressed: () {
-                            Navigator.pushNamed(context, RentService.routname);
-                          },
-                          label: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.device_hub,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 24,
-                              ),
-                              const SizedBox(height: 8),
-                              const Text('Alquiler'),
-                            ],
-                          ),
-                          backgroundColor:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
-                                  : WallpaperColor.baliHai().color,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 120,
-                        height: 120,
-                        child: FloatingActionButton.extended(
-                          heroTag: alquilerTag,
-                          onPressed: () {
-                            Navigator.pushNamed(context, RentService.routname);
-                          },
-                          label: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.store,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 24,
-                              ),
-                              const SizedBox(height: 8),
-                              const Text('Tienda'),
-                            ],
-                          ),
-                          backgroundColor:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
-                                  : WallpaperColor.baliHai().color,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-*/

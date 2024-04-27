@@ -174,27 +174,20 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
       ),
       drawer: const MyDrawer(),
       backgroundColor: Theme.of(context).colorScheme.background,
+      floatingActionButton: FloatingActionButton(
+        heroTag: mantenimientoTag,
+        onPressed: () {
+          new_Mantenimiento();
+        },
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? WallpaperColor.danube().color
+            : WallpaperColor.baliHai().color,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add),
+      ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            child: SizedBox(
-              width: double.infinity,
-              child: FloatingActionButton(
-                mini: true,
-                heroTag: mantenimientoTag,
-                onPressed: () {
-                  new_Mantenimiento();
-                },
-                backgroundColor:
-                    Theme.of(context).brightness == Brightness.light
-                        ? WallpaperColor.danube().color
-                        : WallpaperColor.baliHai().color,
-                child: const Text('Nuevo Mantenimiento'),
-              ),
-            ),
-          ),
           Expanded(
             child: SingleChildScrollView(
               child: Container(

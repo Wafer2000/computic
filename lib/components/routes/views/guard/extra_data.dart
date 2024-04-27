@@ -6,7 +6,7 @@ import 'package:computic/components/routes/tools/input_photo.dart';
 import 'package:computic/components/routes/tools/loading_indicator.dart';
 import 'package:computic/components/routes/tools/my_button.dart';
 import 'package:computic/components/routes/tools/my_textfield.dart';
-import 'package:computic/components/routes/views/services/maintenance.dart';
+import 'package:computic/components/routes/views/home.dart';
 import 'package:computic/style/global_colors.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -113,7 +113,7 @@ class _ExtraDataState extends State<ExtraData> {
                 LoadingScreen().hide();
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const MaintenanceService()),
+                  MaterialPageRoute(builder: (context) => const Home()),
                 );
               } on FirebaseAuthException catch (e) {
                 LoadingScreen().hide();
