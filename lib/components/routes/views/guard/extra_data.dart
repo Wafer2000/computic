@@ -173,56 +173,69 @@ class _ExtraDataState extends State<ExtraData> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              openDataPicker(context);
-                            },
-                            child: SizedBox(
-                              width: 170,
-                              height: 50,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? WallpaperColor.viking().color
-                                        : WallpaperColor.blueZodiac().color,
-                                    borderRadius: BorderRadius.circular(12)),
-                                padding: const EdgeInsets.all(10),
-                                child: const Row(
-                                  children: [
-                                    Icon(Icons.calendar_today),
-                                    SizedBox(width: 10),
-                                    Text(
-                                      'Fecha de Nacimiento',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                    TextField(
+                      controller: ageController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        labelText: 'Fecha de Nacimiento',
+                        floatingLabelStyle: TextStyle(
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.black
+                                    : Colors.white),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? Colors.black
+                                    : Colors.white,
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            'Edad: ',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
-                          ),
-                          Text(
-                            edadf == 0
-                                ? 'Dato vacio'
-                                : '${edadf.toString()} Años',
-                            style: const TextStyle(fontSize: 15),
-                          ),
-                        ],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        labelStyle: TextStyle(
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
+                      onTap: () async {
+                        DateTime? datetime = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime(2100),
+                          cancelText: 'Cancelar',
+                          confirmText: 'Confirmar',
+                          builder: (BuildContext context, Widget? child) {
+                            return Theme(
+                              data: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? ThemeData.light().copyWith(
+                                      colorScheme: ColorScheme.light(
+                                        background: Colors.grey.shade300,
+                                        primary: Colors.grey.shade500,
+                                        secondary: Colors.grey.shade400,
+                                        inversePrimary: Colors.grey.shade500,
+                                      ),
+                                    )
+                                  : ThemeData.dark().copyWith(
+                                      colorScheme: ColorScheme.dark(
+                                        background: Colors.grey.shade300,
+                                        primary: Colors.grey.shade500,
+                                        secondary: Colors.grey.shade400,
+                                        inversePrimary: Colors.grey.shade500,
+                                      ),
+                                    ),
+                              child: child!,
+                            );
+                          },
+                        );
+                        if (datetime != null) {
+                          String formattedDate =
+                              DateFormat('dd/MM/yyyy').format(datetime);
+                          ageController.text = formattedDate;
+                        }
+                      },
+                      obscureText: false,
                     ),
                     const SizedBox(
                       height: 10,

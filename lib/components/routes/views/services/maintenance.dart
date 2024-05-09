@@ -170,7 +170,7 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Llene todos los campos'),
+          title: const Text('Detalles de su mantenimiento'),
           icon: const Icon(Icons.build),
           shadowColor: WallpaperColor.baliHai().color,
           shape:
@@ -198,115 +198,412 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                 }
                 final doc = snapshot.data!;
 
-                final TextEditingController tipoController =
-                    TextEditingController(text: doc['tipo']);
-                final TextEditingController descripcionController =
-                    TextEditingController(text: doc['descripcion']);
-                final TextEditingController tecnicosController =
-                    TextEditingController(text: doc['tecnico']);
-                final TextEditingController restecnicosController =
-                    TextEditingController(text: doc['restecnico']);
-                final TextEditingController etapaController =
-                    TextEditingController(text: doc['etapa']);
-                final TextEditingController tectotalController =
-                    TextEditingController(text: doc['tectotal']);
-                final TextEditingController extrasController =
-                    TextEditingController(text: doc['extras']);
-                final TextEditingController totalController =
-                    TextEditingController(text: doc['total']);
-                final TextEditingController fsolicitudController =
-                    TextEditingController(text: doc['fsolicitud']);
-                final TextEditingController hsolicitudController =
-                    TextEditingController(text: doc['hsolicitud']);
-                final TextEditingController frespuestaController =
-                    TextEditingController(text: doc['frespuesta']);
-                final TextEditingController hrespuestaController =
-                    TextEditingController(text: doc['hrespuesta']);
 
-                return Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        MyTextField(
-                          labelText: 'Tipo de computador',
-                          obscureText: false,
-                          controller: tipoController,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        MyTextField(
-                          labelText: 'Decripcion del daño de su equipo',
-                          obscureText: false,
-                          controller: descripcionController,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: Image.asset(
-                              Theme.of(context).brightness == Brightness.light
-                                  ? 'assets/14.png'
-                                  : 'assets/13.png',
-                              fit: BoxFit.cover,
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Tipo de PC: ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${doc['tipo']}',
+                                  style: const TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min, // Add this line
+                              children: [
+                                Text(
+                                  'Descripcion: ',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                  textAlign: TextAlign.left, // Add this line
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min, // Add this line
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    '${doc['descripcion']}',
+                                    style: const TextStyle(fontSize: 15),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          if (doc['tecnico'] != '')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Text(
+                                    'Tecnico Asignado: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['tecnico'] != '')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['tecnico']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign:
+                                          TextAlign.left, // Add this line
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['tecnico'] != '')
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          if (doc['restecnico'] != '')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Text(
+                                    'Respuesta del Tecnico: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnico'] != '')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['tecnico']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign:
+                                          TextAlign.left, // Add this line
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnico'] != '')
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          if (doc['etapa'] != '')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Text(
+                                    'Respuesta del Tecnico: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['etapa'] != '')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['etapa']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign:
+                                          TextAlign.left, // Add this line
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['etapa'] != '')
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          if (doc['total'] != '')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Text(
+                                    'Respuesta del Tecnico: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['total'] != '')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['total']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign:
+                                          TextAlign.left, // Add this line
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['total'] != '')
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: Image.asset(
+                                Theme.of(context).brightness == Brightness.light
+                                    ? 'assets/14.png'
+                                    : 'assets/13.png',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            height: 10, // The height of the divider
+                            thickness: 1, // The thickness of the divider
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? WallpaperColor.black().color
+                                    : WallpaperColor.white()
+                                        .color, // The color of the divider
+                          ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Solicitud',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          'Hora: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15),
+                                        ),
+                                        Text(
+                                          '${doc['hsolicitud']}',
+                                          style: const TextStyle(fontSize: 15),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      width: 20,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          'Fecha: ',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15),
+                                        ),
+                                        Text(
+                                          '${doc['fsolicitud']}',
+                                          style: const TextStyle(fontSize: 15),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          if (doc['frespuesta'] != '' &&
+                              doc['hrespuesta'] != '')
+                            Divider(
+                              height: 10, // The height of the divider
+                              thickness: 1, // The thickness of the divider
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? WallpaperColor.black().color
+                                  : WallpaperColor.white()
+                                      .color, // The color of the divider
+                            ),
+                          if (doc['frespuesta'] != '' &&
+                              doc['hrespuesta'] != '')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Solicitud',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['frespuesta'] != '' &&
+                              doc['hrespuesta'] != '')
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 10, right: 10),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Text(
+                                            'Hora: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          Text(
+                                            '${doc['hrespuesta']}',
+                                            style:
+                                                const TextStyle(fontSize: 15),
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        width: 20,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          const Text(
+                                            'Fecha: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                          Text(
+                                            '${doc['frespuesta']}',
+                                            style:
+                                                const TextStyle(fontSize: 15),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['frespuesta'] != '' &&
+                              doc['hrespuesta'] != '')
+                            const SizedBox(
+                              height: 10,
+                            ),
+                        ],
+                      ),
                     ),
                   ),
                 );
               }),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF8894B2),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      tipeController.clear();
-                      desmaController.clear();
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Cancelar',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF07529B),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      GuardarMantenimiento();
-                      tipeController.clear();
-                      desmaController.clear();
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Solicitar',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-              ],
-            ),
-          ],
         );
       },
-      barrierDismissible: false,
+      barrierDismissible: true,
     );
   }
 

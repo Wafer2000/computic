@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
           ],
           backgroundColor: Theme.of(context).brightness == Brightness.light
               ? WallpaperColor.steelBlue().color
-              : WallpaperColor.kashmirBlue().color,
+                        : WallpaperColor.kashmirBlue().color,
         ),
         drawer: const MyDrawer(),
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -47,6 +47,42 @@ class _HomeState extends State<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: MediaQuery.sizeOf(context).width * 0.45,
+                    height: MediaQuery.sizeOf(context).width * 0.45,
+                    child: FloatingActionButton.extended(
+                      heroTag: 'tiendaTag',
+                      onPressed: () {
+                        Navigator.pushNamed(context, ShopeService.routname);
+                      },
+                      label: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.store,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 35,
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Tienda',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          const Text(
+                            'Virtual',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ],
+                      ),
+                      backgroundColor:
+                          Theme.of(context).brightness == Brightness.light
+                              ? WallpaperColor.veniceBlue().color
+                              : WallpaperColor.baliHai().color,
+                    ),
+                  ),
+                ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -79,11 +115,16 @@ class _HomeState extends State<Home> {
                           ),
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
+                                  ? WallpaperColor.veniceBlue().color
                                   : WallpaperColor.baliHai().color,
                         ),
                       ),
                     ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -116,16 +157,11 @@ class _HomeState extends State<Home> {
                           ),
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
+                                  ? WallpaperColor.veniceBlue().color
                                   : WallpaperColor.baliHai().color,
                         ),
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -158,11 +194,16 @@ class _HomeState extends State<Home> {
                           ),
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
+                                  ? WallpaperColor.veniceBlue().color
                                   : WallpaperColor.baliHai().color,
                         ),
                       ),
                     ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -195,16 +236,11 @@ class _HomeState extends State<Home> {
                           ),
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
+                                  ? WallpaperColor.veniceBlue().color
                                   : WallpaperColor.baliHai().color,
                         ),
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -237,11 +273,16 @@ class _HomeState extends State<Home> {
                           ),
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
+                                  ? WallpaperColor.veniceBlue().color
                                   : WallpaperColor.baliHai().color,
                         ),
                       ),
                     ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -274,16 +315,11 @@ class _HomeState extends State<Home> {
                           ),
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
+                                  ? WallpaperColor.veniceBlue().color
                                   : WallpaperColor.baliHai().color,
                         ),
                       ),
                     ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
@@ -315,43 +351,7 @@ class _HomeState extends State<Home> {
                           ),
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
-                                  : WallpaperColor.baliHai().color,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        width: MediaQuery.sizeOf(context).width * 0.45,
-                        height: MediaQuery.sizeOf(context).width * 0.45,
-                        child: FloatingActionButton.extended(
-                          heroTag: 'tiendaTag',
-                          onPressed: () {
-                            Navigator.pushNamed(context, ShopeService.routname);
-                          },
-                          label: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.store,
-                                color: Theme.of(context).colorScheme.primary,
-                                size: 35,
-                              ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                'Tienda',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                'Virtual',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                            ],
-                          ),
-                          backgroundColor:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? WallpaperColor.danube().color
+                                  ? WallpaperColor.veniceBlue().color
                                   : WallpaperColor.baliHai().color,
                         ),
                       ),

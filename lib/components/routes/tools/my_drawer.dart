@@ -4,7 +4,6 @@ import 'package:computic/components/routes/Log/login.dart';
 import 'package:computic/components/routes/tools/loading_indicator.dart';
 import 'package:computic/components/routes/views/home.dart';
 import 'package:computic/components/routes/views/profile.dart';
-import 'package:computic/firebase/firestore.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +80,7 @@ class _MyDrawerState extends State<MyDrawer> {
                     Icons.person,
                     color: Theme.of(context).colorScheme.inversePrimary,
                   ),
-                  title: const Text('P E R F I L E'),
+                  title: const Text('P E R F I L'),
                   onTap: () {
                     Navigator.pop(context);
                     Navigator.pushNamed(context, Profile.routname);
