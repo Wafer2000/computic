@@ -46,10 +46,11 @@ class _RentServiceState extends State<RentService> {
     } else if (desalController.text == '') {
       LoadingScreen().hide();
       displayMessageToUser(
-          'Debe colocar una descripcion referente a lo que hara con el equipo', context);
+          'Debe colocar una descripcion referente a lo que hara con el equipo',
+          context);
     } else {
       FirebaseFirestore.instance.collection('Servicios').doc().set({
-        'servicio': 'Mantenimiento',
+        'servicio': 'Alquiler',
         'cliente': _pref.ultimateUid,
         'tipo': timeController.text,
         'descripcion': desalController.text,
@@ -608,14 +609,64 @@ class _RentServiceState extends State<RentService> {
     return StreamBuilder<QuerySnapshot>(
         stream: collections.getCollections('Alquiler', _pref.ultimateUid),
         builder: (context, snapshot) {
+          final service = snapshot.data?.docs;
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            );
+          }
+          if (snapshot.data == null) {
+            return Scaffold(
+              appBar: AppBar(
+                elevation: 0,
+                title: const Center(child: Text('Alquiler')),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      new_Alquiler();
+                    },
+                    tooltip: 'Add',
+                    alignment: Alignment.center,
+                  ),
+                ],
+                backgroundColor:
+                    Theme.of(context).brightness == Brightness.light
+                        ? WallpaperColor.steelBlue().color
+                        : WallpaperColor.kashmirBlue().color,
+              ),
+              drawer: const MyDrawer(),
+              backgroundColor: Theme.of(context).colorScheme.background,
+              body: const Stack(
+                children: [
+                  Positioned.fill(
+                    child: Center(
+                      child: Text(
+                        'No hay Datos',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
               title: const Center(child: Text('Alquiler')),
-              actions: const [
-                SizedBox(
-                  width: 48,
-                )
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    new_Alquiler();
+                  },
+                  tooltip: 'Add',
+                  alignment: Alignment.center,
+                ),
               ],
               backgroundColor: Theme.of(context).brightness == Brightness.light
                   ? WallpaperColor.steelBlue().color
@@ -623,38 +674,152 @@ class _RentServiceState extends State<RentService> {
             ),
             drawer: const MyDrawer(),
             backgroundColor: Theme.of(context).colorScheme.background,
-            body: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: FloatingActionButton(
-                      mini: true,
-                      heroTag: alquilerTag,
-                      onPressed: () {
-                        new_Alquiler();
-                      },
-                      backgroundColor:
-                          Theme.of(context).brightness == Brightness.light
-                              ? WallpaperColor.danube().color
-                              : WallpaperColor.baliHai().color,
-                      child: const Text('Nuevo Alquiler'),
+            body: ListView.builder(
+              itemCount: service?.length,
+              itemBuilder: (context, index) {
+                DocumentSnapshot document = service![index];
+                Map<String, dynamic> data =
+                    document.data() as Map<String, dynamic>;
+                String docID = document.id;
+
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.height * 0.8,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? WallpaperColor.veniceBlue().color
+                          : WallpaperColor.iceberg().color,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Image.asset(
+                                  data['respuesta'] == ''
+                                      ? 'assets/ojo_cerrado.png'
+                                      : 'assets/ojo_abierto.png',
+                                  width: 50,
+                                  height: 50,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? WallpaperColor.white().color
+                                      : WallpaperColor.black().color,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return IconButton(
+                                      highlightColor: Colors.transparent,
+                                      onPressed: () {},
+                                      icon: Image.asset(
+                                        'assets/user.png',
+                                        width: 121.8,
+                                        height: 121.8,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 10, 30, 0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            data['tipo'] != null &&
+                                                    data['tipo'].length > 15
+                                                ? '${data['tipo'].substring(0, 15)}...'
+                                                : data['tipo'] ?? '',
+                                            style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                            textAlign: TextAlign.left,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            data['descripcion'] != null &&
+                                                    data['descripcion'].length >
+                                                        15
+                                                ? '${data['descripcion'].substring(0, 15)}...'
+                                                : data['descripcion'] ?? '',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                            textAlign: TextAlign.left,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: Column(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.info),
+                                onPressed: () {
+                                  details_Alquiler(docID);
+                                },
+                                iconSize: 50,
+                                tooltip: 'Add',
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? WallpaperColor.viking().color
+                                    : WallpaperColor.blueZodiac().color,
+                                alignment: Alignment.center,
+                              ),
+                              Text(
+                                'Detalles',
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
                     ),
                   ),
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      decoration: const BoxDecoration(color: Colors.blue),
-                      child: const Column(
-                        children: [],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                );
+              },
             ),
           );
         });

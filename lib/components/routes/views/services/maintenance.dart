@@ -198,7 +198,6 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                 }
                 final doc = snapshot.data!;
 
-
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -736,23 +735,50 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  data['tipo'] ?? '',
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize:
+                                        MainAxisSize.min, // Add this line
+                                    children: [
+                                      Text(
+                                        data['tipo'] != null &&
+                                                    data['tipo'].length > 15
+                                                ? '${data['tipo'].substring(0, 15)}...'
+                                                : data['tipo'] ?? '',
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                Text(
-                                  data['descripcion'] ?? '',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
-                                )
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize:
+                                        MainAxisSize.min, // Add this line
+                                    children: [
+                                      Text(
+                                        data['descripcion'] != null &&
+                                                    data['descripcion'].length >
+                                                        15
+                                                ? '${data['descripcion'].substring(0, 15)}...'
+                                                : data['descripcion'] ?? '',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary),
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
                           ),

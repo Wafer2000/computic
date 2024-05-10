@@ -617,18 +617,54 @@ class _CreationServiceState extends State<CreationService> {
     final collections = GetCollectionsServices();
 
     return StreamBuilder<QuerySnapshot>(
-      stream: collections.getCollections('Creaciones', _pref.ultimateUid),
-      builder: (context, snapshot) {
-        final service = snapshot.data?.docs;
+        stream: collections.getCollections('Creaciones', _pref.ultimateUid),
+        builder: (context, snapshot) {
+          final service = snapshot.data?.docs;
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: CircularProgressIndicator(
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          );
-        }
-        if (snapshot.data == null) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            );
+          }
+          if (snapshot.data == null) {
+            return Scaffold(
+              appBar: AppBar(
+                elevation: 0,
+                title: const Center(child: Text('Creacion')),
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      new_Creacion();
+                    },
+                    tooltip: 'Add',
+                    alignment: Alignment.center,
+                  ),
+                ],
+                backgroundColor:
+                    Theme.of(context).brightness == Brightness.light
+                        ? WallpaperColor.steelBlue().color
+                        : WallpaperColor.kashmirBlue().color,
+              ),
+              drawer: const MyDrawer(),
+              backgroundColor: Theme.of(context).colorScheme.background,
+              body: const Stack(
+                children: [
+                  Positioned.fill(
+                    child: Center(
+                      child: Text(
+                        'No hay Datos',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
@@ -649,153 +685,148 @@ class _CreationServiceState extends State<CreationService> {
             ),
             drawer: const MyDrawer(),
             backgroundColor: Theme.of(context).colorScheme.background,
-            body: const Stack(
-              children: [
-                Positioned.fill(
-                  child: Center(
-                    child: Text(
-                      'No hay Datos',
-                      style: TextStyle(fontSize: 30),
+            body: ListView.builder(
+              itemCount: service?.length,
+              itemBuilder: (context, index) {
+                DocumentSnapshot document = service![index];
+                Map<String, dynamic> data =
+                    document.data() as Map<String, dynamic>;
+                String docID = document.id;
+
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.height * 0.8,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? WallpaperColor.veniceBlue().color
+                          : WallpaperColor.iceberg().color,
                     ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-
-        return Scaffold(
-          appBar: AppBar(
-            elevation: 0,
-            title: const Center(child: Text('Creacion')),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.add),
-                onPressed: () {
-                  new_Creacion();
-                },
-                tooltip: 'Add',
-                alignment: Alignment.center,
-              ),
-            ],
-            backgroundColor: Theme.of(context).brightness == Brightness.light
-                ? WallpaperColor.steelBlue().color
-                : WallpaperColor.kashmirBlue().color,
-          ),
-          drawer: const MyDrawer(),
-          backgroundColor: Theme.of(context).colorScheme.background,
-          body: ListView.builder(
-            itemCount: service?.length,
-            itemBuilder: (context, index) {
-              DocumentSnapshot document = service![index];
-              Map<String, dynamic> data =
-                  document.data() as Map<String, dynamic>;
-              String docID = document.id;
-
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(10, 20, 10, 0),
-                child: Container(
-                  width: MediaQuery.of(context).size.height * 0.8,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Theme.of(context).brightness == Brightness.light
-                        ? WallpaperColor.veniceBlue().color
-                        : WallpaperColor.iceberg().color,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Image.asset(
-                                data['restecnico'] == ''
-                                    ? 'assets/ojo_cerrado.png'
-                                    : 'assets/ojo_abierto.png',
-                                width: 50,
-                                height: 50,
-                                color: Theme.of(context).brightness ==
-                                        Brightness.light
-                                    ? WallpaperColor.white().color
-                                    : WallpaperColor.black().color,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return IconButton(
-                                    highlightColor: Colors.transparent,
-                                    onPressed: () {},
-                                    icon: Image.asset(
-                                      'assets/user.png',
-                                      width: 121.8,
-                                      height: 121.8,
-                                    ),
-                                  );
-                                },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(5),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Image.asset(
+                                  data['restecnico'] == ''
+                                      ? 'assets/ojo_cerrado.png'
+                                      : 'assets/ojo_abierto.png',
+                                  width: 50,
+                                  height: 50,
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? WallpaperColor.white().color
+                                      : WallpaperColor.black().color,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return IconButton(
+                                      highlightColor: Colors.transparent,
+                                      onPressed: () {},
+                                      icon: Image.asset(
+                                        'assets/user.png',
+                                        width: 121.8,
+                                        height: 121.8,
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 10, 30, 0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  data['nombre'] ?? '',
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
-                                ),
-                                Text(
-                                  data['descripcion'] ?? '',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary),
-                                )
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(20, 10, 30, 0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize:
+                                          MainAxisSize.min, // Add this line
+                                      children: [
+                                  Text(
+                                    data['nombre'] != null &&
+                                                    data['nombre'].length >
+                                                        15
+                                                ? '${data['nombre'].substring(0, 15)}...'
+                                                : data['nombre'] ?? '',
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                                  ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize:
+                                          MainAxisSize.min, // Add this line
+                                      children: [
+                                        Text(
+                                          data['descripcion'] != null &&
+                                                    data['descripcion'].length >
+                                                        15
+                                                ? '${data['descripcion'].substring(0, 15)}...'
+                                                : data['descripcion'] ?? '',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Column(
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.info),
-                              onPressed: () {
-                                details_Creacion(docID);
-                              },
-                              iconSize: 50,
-                              tooltip: 'Add',
-                              color: Theme.of(context).brightness ==
-                                      Brightness.light
-                                  ? WallpaperColor.viking().color
-                                  : WallpaperColor.blueZodiac().color,
-                              alignment: Alignment.center,
-                            ),
-                            Text(
-                              'Detalles',
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.primary),
-                            )
                           ],
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: Column(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.info),
+                                onPressed: () {
+                                  details_Creacion(docID);
+                                },
+                                iconSize: 50,
+                                tooltip: 'Add',
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? WallpaperColor.viking().color
+                                    : WallpaperColor.blueZodiac().color,
+                                alignment: Alignment.center,
+                              ),
+                              Text(
+                                'Detalles',
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
-          ),
-        );
-      }
-    );
+                );
+              },
+            ),
+          );
+        });
   }
 }

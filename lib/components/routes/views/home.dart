@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
                       backgroundColor:
                           Theme.of(context).brightness == Brightness.light
                               ? WallpaperColor.veniceBlue().color
-                              : WallpaperColor.baliHai().color,
+                              : WallpaperColor.iceberg().color,
                     ),
                   ),
                 ),
@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
                                   ? WallpaperColor.veniceBlue().color
-                                  : WallpaperColor.baliHai().color,
+                                  : WallpaperColor.iceberg().color,
                         ),
                       ),
                     ),
@@ -158,7 +158,7 @@ class _HomeState extends State<Home> {
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
                                   ? WallpaperColor.veniceBlue().color
-                                  : WallpaperColor.baliHai().color,
+                                  : WallpaperColor.iceberg().color,
                         ),
                       ),
                     ),
@@ -195,7 +195,7 @@ class _HomeState extends State<Home> {
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
                                   ? WallpaperColor.veniceBlue().color
-                                  : WallpaperColor.baliHai().color,
+                                  : WallpaperColor.iceberg().color,
                         ),
                       ),
                     ),
@@ -237,7 +237,7 @@ class _HomeState extends State<Home> {
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
                                   ? WallpaperColor.veniceBlue().color
-                                  : WallpaperColor.baliHai().color,
+                                  : WallpaperColor.iceberg().color,
                         ),
                       ),
                     ),
@@ -274,7 +274,7 @@ class _HomeState extends State<Home> {
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
                                   ? WallpaperColor.veniceBlue().color
-                                  : WallpaperColor.baliHai().color,
+                                  : WallpaperColor.iceberg().color,
                         ),
                       ),
                     ),
@@ -316,7 +316,7 @@ class _HomeState extends State<Home> {
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
                                   ? WallpaperColor.veniceBlue().color
-                                  : WallpaperColor.baliHai().color,
+                                  : WallpaperColor.iceberg().color,
                         ),
                       ),
                     ),
@@ -352,7 +352,7 @@ class _HomeState extends State<Home> {
                           backgroundColor:
                               Theme.of(context).brightness == Brightness.light
                                   ? WallpaperColor.veniceBlue().color
-                                  : WallpaperColor.baliHai().color,
+                                  : WallpaperColor.iceberg().color,
                         ),
                       ),
                     ),
