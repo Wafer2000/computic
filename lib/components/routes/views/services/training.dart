@@ -32,7 +32,7 @@ class _TrainingServiceState extends State<TrainingService> {
     super.dispose();
   }
 
-  void GuardarCapacitacion() async {
+  void GuardarCapacitacion(String direccion) async {
     LoadingScreen().show(context);
 
     final now = DateTime.now();
@@ -44,13 +44,19 @@ class _TrainingServiceState extends State<TrainingService> {
       displayMessageToUser(
           'Debe colocar una descripcion referente a lo que desea en la capacitacion',
           context);
-    } else {
+    } else if (direccion == '') {
+      LoadingScreen().hide();
+      displayMessageToUser(
+          'Debes agregar una direccion de tu punta de asistencia', context);
+    } else if (direccion != '') {
       FirebaseFirestore.instance.collection('Servicios').doc().set({
         'servicio': 'Capacitaciones',
         'cliente': _pref.ultimateUid,
         'descripcion': descaController.text,
         'tecnico': '',
+        'idtecnico': '',
         'restecnico': '',
+        'direccion': direccion,
         'etapa': '',
         'tectotal': '',
         'extras': '',
@@ -132,8 +138,17 @@ class _TrainingServiceState extends State<TrainingService> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: TextButton(
-                    onPressed: () {
-                      GuardarCapacitacion();
+                    onPressed: () async {
+                      final DocumentSnapshot client = await FirebaseFirestore
+                          .instance
+                          .collection('Users')
+                          .doc(_pref.ultimateUid)
+                          .get();
+
+                      String direccion = client.get('direccion');
+
+                      print('Direccion: $direccion');
+                      GuardarCapacitacion(direccion);
                       descaController.clear();
                       Navigator.pop(context);
                     },

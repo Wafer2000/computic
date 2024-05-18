@@ -32,7 +32,7 @@ class _FacilityServiceState extends State<FacilityService> {
     super.dispose();
   }
 
-  void GuardarInstalacion() async {
+  void GuardarInstalacion(String direccion) async {
     LoadingScreen().show(context);
 
     final now = DateTime.now();
@@ -44,13 +44,19 @@ class _FacilityServiceState extends State<FacilityService> {
       displayMessageToUser(
           'Debe colocar una descripcion referente a la instalacion del servicio de seguridad',
           context);
-    } else {
+    } else if (direccion == '') {
+      LoadingScreen().hide();
+      displayMessageToUser(
+          'Debes agregar una direccion de tu punta de asistencia', context);
+    } else if (direccion != '') {
       FirebaseFirestore.instance.collection('Servicios').doc().set({
         'servicio': 'Instalacion',
         'cliente': _pref.ultimateUid,
         'descripcion': desseController.text,
         'tecnico': '',
         'restecnico': '',
+        'idtecnico': '',
+        'direccion': direccion,
         'etapa': '',
         'tectotal': '',
         'extras': '',
@@ -112,23 +118,6 @@ class _FacilityServiceState extends State<FacilityService> {
                   width: MediaQuery.of(context).size.width * 0.3,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF07529B),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      GuardarInstalacion();
-                      desseController.clear();
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Solicitar',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: 50,
-                  decoration: BoxDecoration(
                     color: const Color(0xFF8894B2),
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -138,6 +127,32 @@ class _FacilityServiceState extends State<FacilityService> {
                       Navigator.pop(context);
                     },
                     child: const Text('Cancelar',
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF07529B),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: TextButton(
+                    onPressed: () async {
+                      final DocumentSnapshot client = await FirebaseFirestore
+                          .instance
+                          .collection('Users')
+                          .doc(_pref.ultimateUid)
+                          .get();
+
+                      String direccion = client.get('direccion');
+
+                      print('Direccion: $direccion');
+                      GuardarInstalacion(direccion);
+                      desseController.clear();
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Solicitar',
                         style: TextStyle(color: Colors.white)),
                   ),
                 ),

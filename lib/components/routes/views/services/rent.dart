@@ -33,7 +33,7 @@ class _RentServiceState extends State<RentService> {
     super.dispose();
   }
 
-  void GuardarAlquiler() async {
+  void GuardarAlquiler(String direccion) async {
     LoadingScreen().show(context);
 
     final now = DateTime.now();
@@ -48,13 +48,18 @@ class _RentServiceState extends State<RentService> {
       displayMessageToUser(
           'Debe colocar una descripcion referente a lo que hara con el equipo',
           context);
-    } else {
+    } else if (direccion == '') {
+      LoadingScreen().hide();
+      displayMessageToUser(
+          'Debes agregar una direccion de tu punta de asistencia', context);
+    } else if (direccion != '') {
       FirebaseFirestore.instance.collection('Servicios').doc().set({
         'servicio': 'Alquiler',
         'cliente': _pref.ultimateUid,
         'tipo': timeController.text,
         'descripcion': desalController.text,
         'respuesta': '',
+        'direccion': direccion,
         'total': '',
         'fsolicitud': hsolicitud,
         'hsolicitud': fsolicitud,
@@ -121,24 +126,6 @@ class _RentServiceState extends State<RentService> {
                   width: MediaQuery.of(context).size.width * 0.3,
                   height: 50,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF07529B),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      GuardarAlquiler();
-                      timeController.clear();
-                      desalController.clear();
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Solicitar',
-                        style: TextStyle(color: Colors.white)),
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: 50,
-                  decoration: BoxDecoration(
                     color: const Color(0xFF8894B2),
                     borderRadius: BorderRadius.circular(20),
                   ),
@@ -149,6 +136,33 @@ class _RentServiceState extends State<RentService> {
                       Navigator.pop(context);
                     },
                     child: const Text('Cancelar',
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF07529B),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: TextButton(
+                    onPressed: () async {
+                      final DocumentSnapshot client = await FirebaseFirestore
+                          .instance
+                          .collection('Users')
+                          .doc(_pref.ultimateUid)
+                          .get();
+
+                      String direccion = client.get('direccion');
+
+                      print('Direccion: $direccion');
+                      GuardarAlquiler(direccion);
+                      timeController.clear();
+                      desalController.clear();
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Solicitar',
                         style: TextStyle(color: Colors.white)),
                   ),
                 ),

@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, avoid_print, prefer_interpolation_to_compose_strings
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:computic/components/routes/tools/helper_functions.dart';
@@ -33,7 +33,7 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
     super.dispose();
   }
 
-  void GuardarMantenimiento() async {
+  void GuardarMantenimiento(String direccion) async {
     LoadingScreen().show(context);
 
     final now = DateTime.now();
@@ -47,14 +47,20 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
       LoadingScreen().hide();
       displayMessageToUser(
           'Debe colocar una descripcion referente al daño de su PC', context);
-    } else {
+    } else if (direccion == '') {
+      LoadingScreen().hide();
+      displayMessageToUser(
+          'Debes agregar una direccion de tu punta de asistencia', context);
+    } else if (direccion != '') {
       FirebaseFirestore.instance.collection('Servicios').doc().set({
         'servicio': 'Mantenimiento',
         'cliente': _pref.ultimateUid,
         'tipo': tipeController.text,
         'descripcion': desmaController.text,
         'tecnico': '',
+        'idtecnico': '',
         'restecnico': '',
+        'direccion': direccion,
         'etapa': '',
         'tectotal': '',
         'extras': '',
@@ -146,8 +152,17 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: TextButton(
-                    onPressed: () {
-                      GuardarMantenimiento();
+                    onPressed: () async {
+                      final DocumentSnapshot client = await FirebaseFirestore
+                          .instance
+                          .collection('Users')
+                          .doc(_pref.ultimateUid)
+                          .get();
+
+                      String direccion = client.get('direccion');
+
+                      print('Direccion: $direccion');
+                      GuardarMantenimiento(direccion);
                       tipeController.clear();
                       desmaController.clear();
                       Navigator.pop(context);
@@ -744,9 +759,9 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                                     children: [
                                       Text(
                                         data['tipo'] != null &&
-                                                    data['tipo'].length > 15
-                                                ? '${data['tipo'].substring(0, 15)}...'
-                                                : data['tipo'] ?? '',
+                                                data['tipo'].length > 15
+                                            ? '${data['tipo'].substring(0, 15)}...'
+                                            : data['tipo'] ?? '',
                                         style: TextStyle(
                                             fontSize: 30,
                                             fontWeight: FontWeight.bold,
@@ -766,10 +781,9 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                                     children: [
                                       Text(
                                         data['descripcion'] != null &&
-                                                    data['descripcion'].length >
-                                                        15
-                                                ? '${data['descripcion'].substring(0, 15)}...'
-                                                : data['descripcion'] ?? '',
+                                                data['descripcion'].length > 15
+                                            ? '${data['descripcion'].substring(0, 15)}...'
+                                            : data['descripcion'] ?? '',
                                         style: TextStyle(
                                             fontSize: 18,
                                             color: Theme.of(context)

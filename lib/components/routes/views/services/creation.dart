@@ -33,7 +33,7 @@ class _CreationServiceState extends State<CreationService> {
     super.dispose();
   }
 
-  void GuardarCreacion() async {
+  void GuardarCreacion(String direccion) async {
     LoadingScreen().show(context);
 
     final now = DateTime.now();
@@ -48,14 +48,20 @@ class _CreationServiceState extends State<CreationService> {
       LoadingScreen().hide();
       displayMessageToUser(
           'Debe colocar una descripcion referente a lo que desea', context);
-    } else {
+    } else if (direccion == '') {
+      LoadingScreen().hide();
+      displayMessageToUser(
+          'Debes agregar una direccion de tu punta de asistencia', context);
+    } else if (direccion != '') {
       FirebaseFirestore.instance.collection('Servicios').doc().set({
         'servicio': 'Creaciones',
         'cliente': _pref.ultimateUid,
         'nombre': nameController.text,
         'descripcion': descreaController.text,
         'tecnico': '',
+        'idtecnico': '',
         'restecnico': '',
+        'direccion': direccion,
         'etapa': '',
         'tectotal': '',
         'extras': '',
@@ -146,8 +152,17 @@ class _CreationServiceState extends State<CreationService> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: TextButton(
-                    onPressed: () {
-                      GuardarCreacion();
+                    onPressed: () async {
+                      final DocumentSnapshot client = await FirebaseFirestore
+                          .instance
+                          .collection('Users')
+                          .doc(_pref.ultimateUid)
+                          .get();
+
+                      String direccion = client.get('direccion');
+
+                      print('Direccion: $direccion');
+                      GuardarCreacion(direccion);
                       nameController.clear();
                       descreaController.clear();
                       Navigator.pop(context);
