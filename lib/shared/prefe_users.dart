@@ -21,4 +21,20 @@ class PreferencesUser {
   set ultimateUid(String value) {
     _prefs.setString('ultimateUid', value);
   }
+
+  String get detailsId {
+    return _prefs.getString('detailsId') ?? '';
+  }
+
+  set detailsId(String value) {
+    _prefs.setString('detailsId', value);
+  }
+
+  String get token {
+    return _prefs.getString('token') ?? '';
+  }
+
+  set token(String value) {
+    _prefs.setString('token', value);
+  }
 }

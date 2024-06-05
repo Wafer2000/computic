@@ -11,7 +11,6 @@ import 'package:computic/components/routes/views/services/maintenance.dart';
 import 'package:computic/components/routes/views/services/rent.dart';
 import 'package:computic/components/routes/views/services/shope.dart';
 import 'package:computic/components/routes/views/services/training.dart';
-import 'package:computic/components/splash_view.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:computic/style/theme/dark.dart';
 import 'package:computic/style/theme/light.dart';
@@ -26,18 +25,19 @@ class Routes extends StatefulWidget {
 
 class _RoutesState extends State<Routes> {
   final prefs = PreferencesUser();
+  
   @override
   Widget build(BuildContext context) {
+  final uid = prefs.ultimateUid;
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: SplashView.routname,
+      initialRoute: uid != null && uid != '' ? Home.routname : Login.routname,
       routes: {
         Home.routname: (context) => const Home(),
         Login.routname: (context) => const Login(),
         Profile.routname: (context) => const Profile(),
         Register.routname: (context) => const Register(),
         ExtraData.routname: (context) => const ExtraData(),
-        SplashView.routname: (context) => const SplashView(),
         RentService.routname: (context) => const RentService(),
         ShopeService.routname: (context) => const ShopeService(),
         CreationService.routname: (context) => const CreationService(),

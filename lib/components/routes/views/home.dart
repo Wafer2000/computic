@@ -1,3 +1,4 @@
+import 'package:computic/components/routes/tools/bloc/notifications_bloc.dart';
 import 'package:computic/components/routes/tools/my_drawer.dart';
 import 'package:computic/components/routes/views/services/creation.dart';
 import 'package:computic/components/routes/views/services/facility.dart';
@@ -5,8 +6,10 @@ import 'package:computic/components/routes/views/services/maintenance.dart';
 import 'package:computic/components/routes/views/services/rent.dart';
 import 'package:computic/components/routes/views/services/shope.dart';
 import 'package:computic/components/routes/views/services/training.dart';
+import 'package:computic/shared/prefe_users.dart';
 import 'package:computic/style/global_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Home extends StatefulWidget {
   static const String routname = '/home';
@@ -24,6 +27,9 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final pref = PreferencesUser();
+    context.read<NotificationsBloc>().requestPermission();
+    print('TOKEN: ${pref.token}');
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -35,7 +41,7 @@ class _HomeState extends State<Home> {
           ],
           backgroundColor: Theme.of(context).brightness == Brightness.light
               ? WallpaperColor.steelBlue().color
-                        : WallpaperColor.kashmirBlue().color,
+              : WallpaperColor.kashmirBlue().color,
         ),
         drawer: const MyDrawer(),
         backgroundColor: Theme.of(context).colorScheme.background,
@@ -47,42 +53,42 @@ class _HomeState extends State<Home> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: MediaQuery.sizeOf(context).width * 0.45,
-                    height: MediaQuery.sizeOf(context).width * 0.45,
-                    child: FloatingActionButton.extended(
-                      heroTag: 'tiendaTag',
-                      onPressed: () {
-                        Navigator.pushNamed(context, ShopeService.routname);
-                      },
-                      label: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.store,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 35,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: MediaQuery.sizeOf(context).width * 0.45,
+                        height: MediaQuery.sizeOf(context).width * 0.45,
+                        child: FloatingActionButton.extended(
+                          heroTag: 'tiendaTag',
+                          onPressed: () {
+                            Navigator.pushNamed(context, ShopeService.routname);
+                          },
+                          label: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.store,
+                                color: Theme.of(context).colorScheme.primary,
+                                size: 35,
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                'Tienda',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Text(
+                                'Virtual',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Tienda',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          const Text(
-                            'Virtual',
-                            style: TextStyle(fontSize: 18),
-                          ),
-                        ],
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? WallpaperColor.veniceBlue().color
+                                  : WallpaperColor.iceberg().color,
+                        ),
                       ),
-                      backgroundColor:
-                          Theme.of(context).brightness == Brightness.light
-                              ? WallpaperColor.veniceBlue().color
-                              : WallpaperColor.iceberg().color,
                     ),
-                  ),
-                ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(

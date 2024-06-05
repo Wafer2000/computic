@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, use_build_context_synchronously, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:computic/components/routes/tools/helper_functions.dart';
@@ -57,7 +57,7 @@ class _TrainingServiceState extends State<TrainingService> {
         'idtecnico': '',
         'restecnico': '',
         'direccion': direccion,
-        'etapa': '',
+        'etapa': 'Tecnico No Asignado',
         'tectotal': '',
         'extras': '',
         'total': '',
@@ -65,6 +65,8 @@ class _TrainingServiceState extends State<TrainingService> {
         'hsolicitud': fsolicitud,
         'frespuesta': '',
         'hrespuesta': '',
+        'fllegada': '',
+        'hllegada': '',
       });
       LoadingScreen().hide();
     }
@@ -248,7 +250,7 @@ class _TrainingServiceState extends State<TrainingService> {
                                 mainAxisSize: MainAxisSize.min, // Add this line
                                 children: [
                                   Text(
-                                    'Tecnico Asignado: ',
+                                    'Tecnico: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -279,6 +281,84 @@ class _TrainingServiceState extends State<TrainingService> {
                             const SizedBox(
                               height: 10,
                             ),
+                          if (doc['restecnicotf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Text(
+                                    'Fecha de Llegada: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['fllegada']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign:
+                                          TextAlign.left, // Add this line
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true)
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          if (doc['restecnicotf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Text(
+                                    'Hora de Llegada: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['hllegada']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign:
+                                          TextAlign.left, // Add this line
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true)
+                            const SizedBox(
+                              height: 10,
+                            ),
                           if (doc['restecnico'] != '')
                             Container(
                               alignment: Alignment.topLeft,
@@ -305,7 +385,7 @@ class _TrainingServiceState extends State<TrainingService> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      '${doc['tecnico']}',
+                                      '${doc['restecnico']}',
                                       style: const TextStyle(fontSize: 15),
                                       textAlign:
                                           TextAlign.left, // Add this line
@@ -365,7 +445,7 @@ class _TrainingServiceState extends State<TrainingService> {
                                 mainAxisSize: MainAxisSize.min, // Add this line
                                 children: [
                                   Text(
-                                    'Respuesta del Tecnico: ',
+                                    'Total: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -500,7 +580,7 @@ class _TrainingServiceState extends State<TrainingService> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Solicitud',
+                                    'Respuesta',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -565,6 +645,24 @@ class _TrainingServiceState extends State<TrainingService> {
                             const SizedBox(
                               height: 10,
                             ),
+                          Container(
+                            alignment: Alignment.topCenter,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min, // Add this line
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    '${doc['etapa']}',
+                                    style: const TextStyle(
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),

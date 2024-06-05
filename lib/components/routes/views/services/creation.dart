@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, avoid_print, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:computic/components/routes/tools/helper_functions.dart';
@@ -62,7 +62,7 @@ class _CreationServiceState extends State<CreationService> {
         'idtecnico': '',
         'restecnico': '',
         'direccion': direccion,
-        'etapa': '',
+        'etapa': 'Tecnico No Asignado',
         'tectotal': '',
         'extras': '',
         'total': '',
@@ -70,6 +70,8 @@ class _CreationServiceState extends State<CreationService> {
         'hsolicitud': fsolicitud,
         'frespuesta': '',
         'hrespuesta': '',
+        'fllegada': '',
+        'hllegada': '',
       });
       LoadingScreen().hide();
     }
@@ -298,7 +300,7 @@ class _CreationServiceState extends State<CreationService> {
                                 mainAxisSize: MainAxisSize.min, // Add this line
                                 children: [
                                   Text(
-                                    'Tecnico Asignado: ',
+                                    'Tecnico: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -329,7 +331,7 @@ class _CreationServiceState extends State<CreationService> {
                             const SizedBox(
                               height: 10,
                             ),
-                          if (doc['restecnico'] != '')
+                          if (doc['restecnicotf'] == true)
                             Container(
                               alignment: Alignment.topLeft,
                               child: const Row(
@@ -337,7 +339,7 @@ class _CreationServiceState extends State<CreationService> {
                                 mainAxisSize: MainAxisSize.min, // Add this line
                                 children: [
                                   Text(
-                                    'Respuesta del Tecnico: ',
+                                    'Fecha de Llegada: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -346,7 +348,7 @@ class _CreationServiceState extends State<CreationService> {
                                 ],
                               ),
                             ),
-                          if (doc['restecnico'] != '')
+                          if (doc['restecnicotf'] == true)
                             Container(
                               alignment: Alignment.topLeft,
                               child: Row(
@@ -355,7 +357,7 @@ class _CreationServiceState extends State<CreationService> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      '${doc['tecnico']}',
+                                      '${doc['fllegada']}',
                                       style: const TextStyle(fontSize: 15),
                                       textAlign:
                                           TextAlign.left, // Add this line
@@ -364,11 +366,50 @@ class _CreationServiceState extends State<CreationService> {
                                 ],
                               ),
                             ),
-                          if (doc['restecnico'] != '')
+                          if (doc['restecnicotf'] == true)
                             const SizedBox(
                               height: 10,
                             ),
-                          if (doc['etapa'] != '')
+                          if (doc['restecnicotf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Text(
+                                    'Hora de Llegada: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min, // Add this line
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['hllegada']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign:
+                                          TextAlign.left, // Add this line
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true)
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          if (doc['restecnico'] != '')
                             Container(
                               alignment: Alignment.topLeft,
                               child: const Row(
@@ -385,7 +426,7 @@ class _CreationServiceState extends State<CreationService> {
                                 ],
                               ),
                             ),
-                          if (doc['etapa'] != '')
+                          if (doc['restecnico'] != '')
                             Container(
                               alignment: Alignment.topLeft,
                               child: Row(
@@ -394,7 +435,7 @@ class _CreationServiceState extends State<CreationService> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      '${doc['etapa']}',
+                                      '${doc['restecnico']}',
                                       style: const TextStyle(fontSize: 15),
                                       textAlign:
                                           TextAlign.left, // Add this line
@@ -403,7 +444,7 @@ class _CreationServiceState extends State<CreationService> {
                                 ],
                               ),
                             ),
-                          if (doc['etapa'] != '')
+                          if (doc['restecnico'] != '')
                             const SizedBox(
                               height: 10,
                             ),
@@ -415,7 +456,7 @@ class _CreationServiceState extends State<CreationService> {
                                 mainAxisSize: MainAxisSize.min, // Add this line
                                 children: [
                                   Text(
-                                    'Respuesta del Tecnico: ',
+                                    'Total: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -550,7 +591,7 @@ class _CreationServiceState extends State<CreationService> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Solicitud',
+                                    'Respuesta',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -615,6 +656,24 @@ class _CreationServiceState extends State<CreationService> {
                             const SizedBox(
                               height: 10,
                             ),
+                          Container(
+                            alignment: Alignment.topCenter,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min, // Add this line
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    '${doc['etapa']}',
+                                    style: const TextStyle(
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),

@@ -44,11 +44,17 @@ dependencies:
   provider: ^6.1.2
   lottie: ^3.1.0
   intl: ^0.19.0
-  string_extensions: ^0.1.4
+  string_extensions: ^0.7.1
   bottom_picker: ^2.6.0
   platform_file: ^0.1.0
   animate_do: ^3.3.4
   file_picker: ^8.0.1
+  flutter_rating_bar: ^4.0.1
+  flutter_bloc: ^8.1.5
+  firebase_messaging: ^14.9.3
+  equatable: ^2.0.5
+  flutter_native_splash: ^2.4.0
+  flutter_local_notifications: ^17.1.2
 
 dev_dependencies:
   flutter_test:
@@ -59,7 +65,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

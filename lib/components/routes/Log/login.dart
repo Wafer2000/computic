@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:computic/components/routes/Log/register.dart';
+import 'package:computic/components/routes/tools/bloc/notifications_bloc.dart';
 import 'package:computic/components/routes/tools/helper_functions.dart';
 import 'package:computic/components/routes/tools/loading_indicator.dart';
 import 'package:computic/components/routes/tools/my_button.dart';
@@ -9,6 +10,7 @@ import 'package:computic/components/routes/views/home.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Login extends StatefulWidget {
   static const String routname = 'login';
@@ -47,6 +49,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
+    context.read<NotificationsBloc>().requestPermission();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: Center(

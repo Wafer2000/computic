@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, unused_element, unused_local_variable
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:computic/components/routes/tools/helper_functions.dart';
@@ -7,11 +7,8 @@ import 'package:computic/components/routes/tools/loading_indicator.dart';
 import 'package:computic/components/routes/tools/my_button.dart';
 import 'package:computic/components/routes/tools/my_textfield.dart';
 import 'package:computic/components/routes/views/home.dart';
-import 'package:computic/style/global_colors.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:bottom_picker/bottom_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -61,23 +58,6 @@ class _ExtraDataState extends State<ExtraData> {
               TextEditingController(text: user['celular']);
           final TextEditingController ageController =
               TextEditingController(text: user['fnacimiento']);
-
-          void openDataPicker(BuildContext context) {
-            BottomPicker.date(
-              pickerTitle: const Text(
-                'Selecciona una fecha',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              dateOrder: DatePickerDateOrder.dmy,
-              pickerTextStyle: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-              onChange: (index) {
-                ageController.text = DateFormat('dd/MM/yyyy').format(index);
-              },
-            ).show(context);
-          }
 
           void Guardar() async {
             LoadingScreen().show(context);

@@ -9,6 +9,7 @@ import 'package:computic/firebase/firestore.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:computic/style/global_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 
 class MaintenanceService extends StatefulWidget {
@@ -23,8 +24,10 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
   //Mantenimiento
   final TextEditingController tipeController = TextEditingController();
   final TextEditingController desmaController = TextEditingController();
+  final TextEditingController commentController = TextEditingController();
 
   final _pref = PreferencesUser();
+  double califications = 0;
 
   String mantenimientoTag = 'mantenimientoTag';
 
@@ -50,7 +53,7 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
     } else if (direccion == '') {
       LoadingScreen().hide();
       displayMessageToUser(
-          'Debes agregar una direccion de tu punta de asistencia', context);
+          'Debes agregar una direccion de tu punto de asistencia', context);
     } else if (direccion != '') {
       FirebaseFirestore.instance.collection('Servicios').doc().set({
         'servicio': 'Mantenimiento',
@@ -58,19 +61,24 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
         'tipo': tipeController.text,
         'descripcion': desmaController.text,
         'tecnico': '',
+        'asistiotf': null,
         'idtecnico': '',
+        'restecnicotf': null,
+        'asistenciatf': null,
         'restecnico': '',
         'direccion': direccion,
-        'etapa': '',
+        'etapa': 'Tecnico No Asignado',
         'tectotal': '',
-        'extras': '',
         'total': '',
-        'fsolicitud': hsolicitud,
-        'hsolicitud': fsolicitud,
+        'fsolicitud': fsolicitud,
+        'hsolicitud': hsolicitud,
         'frespuesta': '',
         'hrespuesta': '',
+        'fllegada': '',
+        'hllegada': '',
+        'comentario': '',
+        'estrellas': null,
       });
-
       LoadingScreen().hide();
     }
   }
@@ -213,6 +221,26 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                 }
                 final doc = snapshot.data!;
 
+                DateTime now = DateTime.now();
+                final fahora = DateFormat('dd-MM-yyyy').format(now);
+
+                DateTime? eightHoursLater;
+
+                if (doc['hllegada'] != null) {
+                  try {
+                    DateTime parsedHllegada =
+                        DateFormat("HH:mm:ss").parse(doc['hllegada']);
+                    eightHoursLater =
+                        parsedHllegada.add(const Duration(hours: 8));
+                  } catch (e) {
+                    print('Error parsing date: $e');
+                  }
+                }
+
+                bool isEightHoursLaterGreaterThanNow =
+                    eightHoursLater != null && eightHoursLater.isAfter(now);
+
+                print(isEightHoursLaterGreaterThanNow);
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -253,14 +281,14 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                             alignment: Alignment.topLeft,
                             child: const Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min, // Add this line
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
                                   'Descripcion: ',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
-                                  textAlign: TextAlign.left, // Add this line
+                                  textAlign: TextAlign.left,
                                 ),
                               ],
                             ),
@@ -269,13 +297,13 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                             alignment: Alignment.topLeft,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min, // Add this line
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Flexible(
                                   child: Text(
                                     '${doc['descripcion']}',
                                     style: const TextStyle(fontSize: 15),
-                                    textAlign: TextAlign.left, // Add this line
+                                    textAlign: TextAlign.left,
                                   ),
                                 ),
                               ],
@@ -289,14 +317,14 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                               alignment: Alignment.topLeft,
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    'Tecnico Asignado: ',
+                                    'Tecnico: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
-                                    textAlign: TextAlign.left, // Add this line
+                                    textAlign: TextAlign.left,
                                   ),
                                 ],
                               ),
@@ -306,14 +334,13 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                               alignment: Alignment.topLeft,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Flexible(
                                     child: Text(
                                       '${doc['tecnico']}',
                                       style: const TextStyle(fontSize: 15),
-                                      textAlign:
-                                          TextAlign.left, // Add this line
+                                      textAlign: TextAlign.left,
                                     ),
                                   ),
                                 ],
@@ -323,36 +350,315 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                             const SizedBox(
                               height: 10,
                             ),
-                          if (doc['restecnico'] != '')
+                          if (doc['restecnicotf'] == true &&
+                              doc['asistenciatf'] == true)
                             Container(
                               alignment: Alignment.topLeft,
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Fecha de Llegada del Tecnico: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true &&
+                              doc['asistenciatf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['fllegada']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true &&
+                              doc['asistenciatf'] == true)
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          if (doc['restecnicotf'] == true &&
+                              doc['asistenciatf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Hora de Llegada del Tecnico: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true &&
+                              doc['asistenciatf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['hllegada']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == null &&
+                              doc['asistenciatf'] != true)
+                            Divider(
+                              height: 10, // The height of the divider
+                              thickness: 1, // The thickness of the divider
+                              color: Theme.of(context).brightness ==
+                                      Brightness.light
+                                  ? WallpaperColor.black().color
+                                  : WallpaperColor.white()
+                                      .color, // The color of the divider
+                            ),
+                          if (doc['restecnicotf'] == true &&
+                              doc['asistenciatf'] != true)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 0),
+                              child: Container(
+                                alignment: Alignment.topLeft,
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        'Fecha y Hora propuesta por el Tecnico:',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500),
+                                        textAlign: TextAlign.start,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          if (doc['restecnicotf'] == true &&
+                              doc['asistenciatf'] != true)
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          if (doc['restecnicotf'] == true &&
+                              doc['asistenciatf'] != true)
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text(
+                                        'Fecha: ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        doc['fllegada'] == ''
+                                            ? 'En modificacion'
+                                            : '${doc['fllegada']}',
+                                        style: const TextStyle(fontSize: 15),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Text(
+                                        'Hora: ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                      Text(
+                                        doc['hllegada'] == ''
+                                            ? 'En modificacion'
+                                            : '${doc['hllegada']}',
+                                        style: const TextStyle(fontSize: 15),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          if (doc['restecnicotf'] == true &&
+                              doc['asistenciatf'] == null)
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          if (doc['etapa'] == 'Fecha de Asistencia Propuesta' &&
+                              doc['asistenciatf'] == null &&
+                              doc['fllegada'] != '' &&
+                              doc['hllegada'] != '')
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 0, bottom: 20),
+                              child: Column(
+                                children: [
+                                  Divider(
+                                    height: 10, // The height of the divider
+                                    thickness:
+                                        1, // The thickness of the divider
+                                    color: Theme.of(context).brightness ==
+                                            Brightness.light
+                                        ? WallpaperColor.black().color
+                                        : WallpaperColor.white()
+                                            .color, // The color of the divider
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    child: const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Flexible(
+                                          child: Text(
+                                            '¿Acepta la fecha y hora que propuso el Tecnico asignado?',
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                fontWeight: FontWeight.w500),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Container(
+                                        width: 90,
+                                        decoration: BoxDecoration(
+                                          color: WallpaperColor.baliHai().color,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () async {
+                                            await FirebaseFirestore.instance
+                                                .collection('Servicios')
+                                                .doc(id)
+                                                .update({
+                                              'asistenciatf': false,
+                                              'hllegada': '',
+                                              'fllegada': ''
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('No Acepto',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 90,
+                                        decoration: BoxDecoration(
+                                          color:
+                                              WallpaperColor.blueZodiac().color,
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: TextButton(
+                                          onPressed: () async {
+                                            await FirebaseFirestore.instance
+                                                .collection('Servicios')
+                                                .doc(id)
+                                                .update({
+                                              'asistenciatf': true,
+                                              'etapa':
+                                                  'Fecha de Asistencia Aceptada'
+                                            });
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('Acepto',
+                                              style: TextStyle(
+                                                  color: Colors.white)),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['restecnico'] != '')
+                            const SizedBox(
+                              height: 10,
+                            ),
+                          if (doc['etapa'] == 'Respuesta del Tecnico')
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
                                     'Respuesta del Tecnico: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
-                                    textAlign: TextAlign.left, // Add this line
+                                    textAlign: TextAlign.left,
                                   ),
                                 ],
                               ),
                             ),
-                          if (doc['restecnico'] != '')
+                          if (doc['etapa'] == 'Respuesta del Tecnico')
                             Container(
                               alignment: Alignment.topLeft,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      '${doc['tecnico']}',
+                                      doc['etapa'] == 'Respuesta del Tecnico' &&
+                                              doc['restecnico'] == ''
+                                          ? 'Esperando respuesta del tecnico...'
+                                          : '${doc['restecnico']}',
                                       style: const TextStyle(fontSize: 15),
-                                      textAlign:
-                                          TextAlign.left, // Add this line
+                                      textAlign: TextAlign.left,
                                     ),
                                   ),
                                 ],
@@ -362,58 +668,19 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                             const SizedBox(
                               height: 10,
                             ),
-                          if (doc['etapa'] != '')
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
-                                children: [
-                                  Text(
-                                    'Respuesta del Tecnico: ',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                    textAlign: TextAlign.left, // Add this line
-                                  ),
-                                ],
-                              ),
-                            ),
-                          if (doc['etapa'] != '')
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
-                                children: [
-                                  Flexible(
-                                    child: Text(
-                                      '${doc['etapa']}',
-                                      style: const TextStyle(fontSize: 15),
-                                      textAlign:
-                                          TextAlign.left, // Add this line
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          if (doc['etapa'] != '')
-                            const SizedBox(
-                              height: 10,
-                            ),
                           if (doc['total'] != '')
                             Container(
                               alignment: Alignment.topLeft,
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    'Respuesta del Tecnico: ',
+                                    'Total: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
-                                    textAlign: TextAlign.left, // Add this line
+                                    textAlign: TextAlign.left,
                                   ),
                                 ],
                               ),
@@ -423,35 +690,268 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                               alignment: Alignment.topLeft,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Flexible(
                                     child: Text(
                                       '${doc['total']}',
                                       style: const TextStyle(fontSize: 15),
-                                      textAlign:
-                                          TextAlign.left, // Add this line
+                                      textAlign: TextAlign.left,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          if (doc['total'] != '')
+                          if (doc['total'] != '' && doc['comentario'] == '')
                             const SizedBox(
                               height: 10,
                             ),
-                          Container(
-                            padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: Image.asset(
-                                Theme.of(context).brightness == Brightness.light
-                                    ? 'assets/14.png'
-                                    : 'assets/13.png',
-                                fit: BoxFit.cover,
+                          if (doc['total'] != '' && doc['comentario'] == '')
+                            Column(
+                              children: [
+                                RatingBar(
+                                  initialRating: califications,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  itemCount: 5,
+                                  itemSize: 30.0,
+                                  ratingWidget: RatingWidget(
+                                    full: const Icon(Icons.star,
+                                        color: Colors.amber),
+                                    half: const Icon(Icons.star_half,
+                                        color: Colors.amber),
+                                    empty: const Icon(Icons.star_border,
+                                        color: Colors.amber),
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    print('Calificación: $rating');
+                                    setState(() {
+                                      califications = rating;
+                                    });
+                                  },
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(top: 5, bottom: 10),
+                                  child: MyTextField(
+                                      labelText: 'Comentario',
+                                      obscureText: false,
+                                      controller: commentController),
+                                ),
+                                Container(
+                                  width: 90,
+                                  decoration: BoxDecoration(
+                                    color: WallpaperColor.baliHai().color,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () async {
+                                      LoadingScreen().show(context);
+                                      if (commentController.text != '' &&
+                                          califications > 0) {
+                                        try {
+                                          await FirebaseFirestore.instance
+                                              .collection('Servicios')
+                                              .doc(id)
+                                              .update({
+                                            'estrellas': califications,
+                                            'comentario':
+                                                commentController.text,
+                                          });
+                                          califications = 0;
+                                          commentController.clear();
+                                          LoadingScreen().hide();
+                                          displayMessageToUser(
+                                              'Has comentado', context);
+                                          Navigator.pop(context);
+                                        } catch (e) {
+                                          califications = 0;
+                                          commentController.clear();
+                                          LoadingScreen().hide();
+                                          displayMessageToUser(
+                                              'Ocurrio el siguiente error: $e',
+                                              context);
+                                          Navigator.pop(context);
+                                        }
+                                      } else {
+                                        califications = 0;
+                                        commentController.clear();
+                                        LoadingScreen().hide();
+                                        displayMessageToUser(
+                                            'Debes agregar un comentario y estrellas',
+                                            context);
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                    child: const Text('Calificar'),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          if (doc['total'] == '')
+                            Container(
+                              padding: const EdgeInsets.fromLTRB(16, 5, 16, 0),
+                              child: AspectRatio(
+                                aspectRatio: 1,
+                                child: Image.asset(
+                                  Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? 'assets/14.png'
+                                      : 'assets/13.png',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
-                          ),
+                          if (doc['estrellas'] != null &&
+                              doc['comentario'] != '')
+                            Padding(
+                              padding: const EdgeInsets.only(top: 5),
+                              child: Container(
+                                alignment: Alignment.topLeft,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            'Tú Comentario: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                            textAlign: TextAlign.left,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      alignment: Alignment.topLeft,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Flexible(
+                                            child: Text(
+                                              '${doc['comentario']}',
+                                              style:
+                                                  const TextStyle(fontSize: 15),
+                                              textAlign: TextAlign.left,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    RatingBar(
+                                      initialRating: doc['estrellas'],
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      itemCount: 5,
+                                      itemSize: 30.0,
+                                      ratingWidget: RatingWidget(
+                                        full: const Icon(Icons.star,
+                                            color: Colors.amber),
+                                        half: const Icon(Icons.star_half,
+                                            color: Colors.amber),
+                                        empty: const Icon(Icons.star_border,
+                                            color: Colors.amber),
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        print('Calificación: $rating');
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          if (doc['asistenciatf'] == true &&
+                              doc['etapa'] == 'Fecha de Asistencia Aceptada' &&
+                              isEightHoursLaterGreaterThanNow == false &&
+                              doc['fllegada'] == fahora &&
+                              doc['restecnicotf'] == true)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? WallpaperColor.blueZodiac().color
+                                      : WallpaperColor.baliHai().color,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    minWidth: 100,
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () async {
+                                      await FirebaseFirestore.instance
+                                          .collection('Servicios')
+                                          .doc(id)
+                                          .update({
+                                        'asistiotf': true,
+                                        'etapa': 'Tecnico Asistio'
+                                      });
+                                      Navigator.pop(context);
+                                      print('Llego a tiempo');
+                                    },
+                                    child: const Text('Llego a tiempo',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20)),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          if (doc['asistenciatf'] == true &&
+                              doc['etapa'] == 'Fecha de Asistencia Aceptada' &&
+                              isEightHoursLaterGreaterThanNow == true &&
+                              doc['restecnicotf'] == true)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).brightness ==
+                                          Brightness.light
+                                      ? WallpaperColor.blueZodiac().color
+                                      : WallpaperColor.baliHai().color,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    minWidth: 100,
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () async {
+                                      await FirebaseFirestore.instance
+                                          .collection('Servicios')
+                                          .doc(id)
+                                          .update({
+                                        'asistiotf': null,
+                                        'tecnico': '',
+                                        'idtecnico': '',
+                                        'restecnicotf': null,
+                                        'asistenciatf': null,
+                                        'restecnico': '',
+                                        'etapa': 'Tecnico No Asignado',
+                                        'fllegada': '',
+                                        'hllegada': '',
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Llego Tarde',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20)),
+                                  ),
+                                ),
+                              ),
+                            ),
                           Divider(
                             height: 10, // The height of the divider
                             thickness: 1, // The thickness of the divider
@@ -538,25 +1038,24 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                             ),
                           if (doc['frespuesta'] != '' &&
                               doc['hrespuesta'] != '')
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Solicitud',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15),
-                                  ),
-                                ],
-                              ),
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'Entrega',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                              ],
                             ),
+                          ),
                           if (doc['frespuesta'] != '' &&
                               doc['hrespuesta'] != '')
                             Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
+                            padding: const EdgeInsets.only(left: 10, right: 10),
                               child: Column(
                                 children: [
                                   Row(
@@ -608,6 +1107,42 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                               doc['hrespuesta'] != '')
                             const SizedBox(
                               height: 10,
+                            ),
+                          if (doc['etapa'] != '' && doc['total'] == '')
+                            Container(
+                              alignment: Alignment.topCenter,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      '${doc['etapa']}',
+                                      style: const TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['total'] != '')
+                            Container(
+                              alignment: Alignment.topCenter,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Trabajo Terminado',
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                         ],
                       ),
@@ -721,9 +1256,11 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Image.asset(
-                                data['restecnico'] == ''
-                                    ? 'assets/ojo_cerrado.png'
-                                    : 'assets/ojo_abierto.png',
+                                data['total'] == ''
+                                    ? data['tecnico'] == ''
+                                        ? 'assets/ojo_cerrado.png'
+                                        : 'assets/ojo_abierto.png'
+                                    : 'assets/lograr.png',
                                 width: 50,
                                 height: 50,
                                 color: Theme.of(context).brightness ==
@@ -754,8 +1291,7 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                                   alignment: Alignment.topLeft,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize:
-                                        MainAxisSize.min, // Add this line
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
                                         data['tipo'] != null &&
@@ -776,8 +1312,7 @@ class _MaintenanceServiceState extends State<MaintenanceService> {
                                   alignment: Alignment.topLeft,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    mainAxisSize:
-                                        MainAxisSize.min, // Add this line
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
                                         data['descripcion'] != null &&

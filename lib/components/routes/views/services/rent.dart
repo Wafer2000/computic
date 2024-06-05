@@ -1,4 +1,4 @@
-// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: non_constant_identifier_names, avoid_print, use_build_context_synchronously
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:computic/components/routes/tools/helper_functions.dart';
@@ -9,6 +9,7 @@ import 'package:computic/firebase/firestore.dart';
 import 'package:computic/shared/prefe_users.dart';
 import 'package:computic/style/global_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:intl/intl.dart';
 
 class RentService extends StatefulWidget {
@@ -23,8 +24,10 @@ class _RentServiceState extends State<RentService> {
   //alquiler de video views
   final TextEditingController timeController = TextEditingController();
   final TextEditingController desalController = TextEditingController();
+  final TextEditingController commentController = TextEditingController();
 
   final _pref = PreferencesUser();
+  double califications = 0;
 
   String alquilerTag = 'alquilerTag';
 
@@ -56,15 +59,23 @@ class _RentServiceState extends State<RentService> {
       FirebaseFirestore.instance.collection('Servicios').doc().set({
         'servicio': 'Alquiler',
         'cliente': _pref.ultimateUid,
-        'tipo': timeController.text,
+        'tiempo': timeController.text,
         'descripcion': desalController.text,
+        'asistiotf': null,
+        'respuestatf': null,
+        'asistenciatf': null,
         'respuesta': '',
         'direccion': direccion,
+        'etapa': 'No Visto Aun',
         'total': '',
-        'fsolicitud': hsolicitud,
-        'hsolicitud': fsolicitud,
+        'fsolicitud': fsolicitud,
+        'hsolicitud': hsolicitud,
         'frespuesta': '',
         'hrespuesta': '',
+        'fllegada': '',
+        'hllegada': '',
+        'comentario': '',
+        'estrellas': null,
       });
       LoadingScreen().hide();
     }
@@ -180,7 +191,7 @@ class _RentServiceState extends State<RentService> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Detalles de su mantenimiento'),
+          title: const Text('Detalles de su alquiler'),
           icon: const Icon(Icons.build),
           shadowColor: WallpaperColor.baliHai().color,
           shape:
@@ -208,6 +219,26 @@ class _RentServiceState extends State<RentService> {
                 }
                 final doc = snapshot.data!;
 
+                DateTime now = DateTime.now();
+                final fahora = DateFormat('dd-MM-yyyy').format(now);
+
+                DateTime? eightHoursLater;
+
+                if (doc['hllegada'] != null) {
+                  try {
+                    DateTime parsedHllegada =
+                        DateFormat("HH:mm:ss").parse(doc['hllegada']);
+                    eightHoursLater =
+                        parsedHllegada.add(const Duration(hours: 8));
+                  } catch (e) {
+                    print('Error parsing date: $e');
+                  }
+                }
+
+                bool isEightHoursLaterGreaterThanNow =
+                    eightHoursLater != null && eightHoursLater.isAfter(now);
+
+                print(isEightHoursLaterGreaterThanNow);
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -221,7 +252,7 @@ class _RentServiceState extends State<RentService> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Tipo de PC: ',
+                                  'Horas solicitadas: ',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15),
@@ -235,7 +266,7 @@ class _RentServiceState extends State<RentService> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${doc['tipo']}',
+                                  '${doc['tiempo']}',
                                   style: const TextStyle(fontSize: 15),
                                 ),
                               ],
@@ -279,46 +310,79 @@ class _RentServiceState extends State<RentService> {
                           const SizedBox(
                             height: 10,
                           ),
-                          if (doc['tecnico'] != '')
+                          if (doc['asistenciatf'] == true)
                             Container(
                               alignment: Alignment.topLeft,
                               child: const Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
-                                    'Tecnico Asignado: ',
+                                    'Fecha de Llegada del Tecnico: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
-                                    textAlign: TextAlign.left, // Add this line
+                                    textAlign: TextAlign.left,
                                   ),
                                 ],
                               ),
                             ),
-                          if (doc['tecnico'] != '')
+                          if (doc['asistenciatf'] == true)
                             Container(
                               alignment: Alignment.topLeft,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min, // Add this line
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      '${doc['tecnico']}',
+                                      '${doc['fllegada']}',
                                       style: const TextStyle(fontSize: 15),
-                                      textAlign:
-                                          TextAlign.left, // Add this line
+                                      textAlign: TextAlign.left,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          if (doc['tecnico'] != '')
+                          if (doc['asistenciatf'] == true)
                             const SizedBox(
                               height: 10,
                             ),
-                          if (doc['restecnico'] != '')
+                          if (doc['asistenciatf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    'Hora de Llegada del Tecnico: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['asistenciatf'] == true)
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      '${doc['hllegada']}',
+                                      style: const TextStyle(fontSize: 15),
+                                      textAlign: TextAlign.left,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          if (doc['respuestatf'] == true)
                             Container(
                               alignment: Alignment.topLeft,
                               child: const Row(
@@ -326,7 +390,7 @@ class _RentServiceState extends State<RentService> {
                                 mainAxisSize: MainAxisSize.min, // Add this line
                                 children: [
                                   Text(
-                                    'Respuesta del Tecnico: ',
+                                    'Fecha de Llegada: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -335,7 +399,7 @@ class _RentServiceState extends State<RentService> {
                                 ],
                               ),
                             ),
-                          if (doc['restecnico'] != '')
+                          if (doc['respuestatf'] == true)
                             Container(
                               alignment: Alignment.topLeft,
                               child: Row(
@@ -344,7 +408,7 @@ class _RentServiceState extends State<RentService> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      '${doc['tecnico']}',
+                                      '${doc['fllegada']}',
                                       style: const TextStyle(fontSize: 15),
                                       textAlign:
                                           TextAlign.left, // Add this line
@@ -353,11 +417,11 @@ class _RentServiceState extends State<RentService> {
                                 ],
                               ),
                             ),
-                          if (doc['restecnico'] != '')
+                          if (doc['respuestatf'] == true)
                             const SizedBox(
                               height: 10,
                             ),
-                          if (doc['etapa'] != '')
+                          if (doc['respuestatf'] == true)
                             Container(
                               alignment: Alignment.topLeft,
                               child: const Row(
@@ -365,7 +429,7 @@ class _RentServiceState extends State<RentService> {
                                 mainAxisSize: MainAxisSize.min, // Add this line
                                 children: [
                                   Text(
-                                    'Respuesta del Tecnico: ',
+                                    'Hora de Llegada: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -374,7 +438,7 @@ class _RentServiceState extends State<RentService> {
                                 ],
                               ),
                             ),
-                          if (doc['etapa'] != '')
+                          if (doc['respuestatf'] == true)
                             Container(
                               alignment: Alignment.topLeft,
                               child: Row(
@@ -383,7 +447,7 @@ class _RentServiceState extends State<RentService> {
                                 children: [
                                   Flexible(
                                     child: Text(
-                                      '${doc['etapa']}',
+                                      '${doc['hllegada']}',
                                       style: const TextStyle(fontSize: 15),
                                       textAlign:
                                           TextAlign.left, // Add this line
@@ -392,7 +456,7 @@ class _RentServiceState extends State<RentService> {
                                 ],
                               ),
                             ),
-                          if (doc['etapa'] != '')
+                          if (doc['respuestatf'] == true)
                             const SizedBox(
                               height: 10,
                             ),
@@ -404,7 +468,7 @@ class _RentServiceState extends State<RentService> {
                                 mainAxisSize: MainAxisSize.min, // Add this line
                                 children: [
                                   Text(
-                                    'Respuesta del Tecnico: ',
+                                    'Total: ',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -539,7 +603,7 @@ class _RentServiceState extends State<RentService> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Solicitud',
+                                    'Respuesta',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15),
@@ -604,6 +668,24 @@ class _RentServiceState extends State<RentService> {
                             const SizedBox(
                               height: 10,
                             ),
+                          Container(
+                            alignment: Alignment.topCenter,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min, // Add this line
+                              children: [
+                                Flexible(
+                                  child: Text(
+                                    '${doc['etapa']}',
+                                    style: const TextStyle(
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.left, // Add this line
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -716,9 +798,11 @@ class _RentServiceState extends State<RentService> {
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 10),
                                 child: Image.asset(
-                                  data['respuesta'] == ''
-                                      ? 'assets/ojo_cerrado.png'
-                                      : 'assets/ojo_abierto.png',
+                                data['total'] == ''
+                                    ? data['respuesta'] == ''
+                                        ? 'assets/ojo_cerrado.png'
+                                        : 'assets/ojo_abierto.png'
+                                    : 'assets/lograr.png',
                                   width: 50,
                                   height: 50,
                                   color: Theme.of(context).brightness ==
@@ -755,10 +839,10 @@ class _RentServiceState extends State<RentService> {
                                       children: [
                                         Flexible(
                                           child: Text(
-                                            data['tipo'] != null &&
-                                                    data['tipo'].length > 15
-                                                ? '${data['tipo'].substring(0, 15)}...'
-                                                : data['tipo'] ?? '',
+                                            data['tiempo'] != null &&
+                                                    data['tiempo'].length > 15
+                                                ? '${data['tiempo'].substring(0, 15)}...'
+                                                : data['tiempo'] ?? '',
                                             style: TextStyle(
                                                 fontSize: 30,
                                                 fontWeight: FontWeight.bold,
